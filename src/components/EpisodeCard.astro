@@ -1,0 +1,102 @@
+---
+import { humanDuration, formatUploadDate, teamFromTitle } from '../lib/util.js';
+const { ep } = Astro.props;
+const team = teamFromTitle(ep.title);
+const duration = humanDuration(ep.durationSeconds);
+const date = formatUploadDate(ep.uploadDate);
+---
+
+<a class="ep-card card" href={`/episodes/${ep.id}/`} aria-label={`Open episode: ${ep.title}`}>
+  <div class="thumb">
+    <img
+      src={ep.thumbnail}
+      alt={`Video thumbnail for the episode “${ep.title}”`}
+      loading="lazy"
+      width="480"
+      height="270"
+    />
+    {duration && <span class="dur ts">{duration}</span>}
+  </div>
+  <div class="body">
+    <div class="tags">
+      {team && <span class="chip">{team}</span>}
+      {date && <span class="date">{date}</span>}
+    </div>
+    <h3 class="title">{ep.title}</h3>
+    {ep.summary && <p class="summary">{ep.summary}</p>}
+    <span class="cta">
+      {ep.hasTranscript ? 'Read transcript & chapters' : 'View episode'} →
+    </span>
+  </div>
+</a>
+
+<style>
+  .ep-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .ep-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--purple-100);
+  }
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--purple-050);
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .dur {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    background: rgba(28, 24, 48, 0.82);
+    color: #fff;
+    border: 0;
+  }
+  .body {
+    padding: 1.1rem 1.2rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .tags {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .date {
+    color: var(--gray);
+    font-size: 0.82rem;
+  }
+  .title {
+    font-size: 1.08rem;
+    margin: 0;
+  }
+  .summary {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .cta {
+    margin-top: auto;
+    color: var(--purple);
+    font-weight: 500;
+    font-size: 0.92rem;
+    font-family: var(--font-head);
+  }
+</style>

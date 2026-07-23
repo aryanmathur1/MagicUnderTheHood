@@ -1,0 +1,349 @@
+{
+  "id": "EK5vX8DDwtE",
+  "url": "https://www.youtube.com/watch?v=EK5vX8DDwtE",
+  "title": "Magic Under The Hood - Turbo Terminators 30348 - Hosted by Metal Magic FTC DECODE",
+  "description": "30348 Turbo Terminators, a rookie FTC team from Ashburn, VA shares their bot design and story on Magic Under The Hood hosted by Metal Magic FTC!\n\n#robotics #ftc #interview #firsttechchallenge",
+  "durationSeconds": 337,
+  "uploadDate": "20260205",
+  "channel": "Metal Magic",
+  "channelUrl": "https://www.youtube.com/channel/UClHJH8_tKVWbrV5nmi84Xmg",
+  "thumbnail": "https://i.ytimg.com/vi/EK5vX8DDwtE/maxresdefault.jpg",
+  "order": 1,
+  "transcript": {
+    "source": "youtube-captions",
+    "segments": [
+      {
+        "start": 1.12,
+        "text": "Hi guys, my name is Rob and my name is Nihal and we're both from Team Metal Magagic and today for this"
+      },
+      {
+        "start": 6.24,
+        "text": "episode of Magic Under the Hood, we're with team 30348 Turbo Terminators, a rookie team from"
+      },
+      {
+        "start": 12.56,
+        "text": "Ashman, Virginia participating in the Chesapeake region. And for the first question today, I wanted to ask you"
+      },
+      {
+        "start": 18.48,
+        "text": "guys, how did you guys approach the season and some of the design challenges that came with it?"
+      },
+      {
+        "start": 24.72,
+        "text": "So, right after the kickoff, we took heavy inspiration by reviewing a lot of videos from the 30 hours challenge from"
+      },
+      {
+        "start": 32.32,
+        "text": "a lot of veteran teams for multiple multiple weeks. Starting off, uh we had the we had the Rev starter kit which"
+      },
+      {
+        "start": 41.04,
+        "text": "gave us like a lot of variety of parts to experiment with where we built an initial flywheel and then that"
+      },
+      {
+        "start": 46.48,
+        "text": "eventually led to a lot more and our entire robot. All right. Thank you. That makes sense."
+      },
+      {
+        "start": 52.72,
+        "text": "So, could you please walk me through your transfer process starting from your intake all the way to your scoring"
+      },
+      {
+        "start": 57.76,
+        "text": "system? So, we have an intake that intakes the balls through here and once it gets pulled up, a servo hits it over to the"
+      },
+      {
+        "start": 68.4,
+        "text": "flywheel and it gets pulled in and then shot out. All right, thank you. All right, guys. So, onto your intake. I"
+      },
+      {
+        "start": 76.64,
+        "text": "noticed you guys use flat wheels. So what was the reason behind this choice rather than sticking to more mainstream"
+      },
+      {
+        "start": 82.72,
+        "text": "intaking options? Yeah, so at first we were considering using surgical tubing, but we already"
+      },
+      {
+        "start": 90.56,
+        "text": "had uh flap wheels in the Rev starter kit and we wanted to experiment with them and we found them to be a very good"
+      },
+      {
+        "start": 98.32,
+        "text": "choice and they work just as well as surgical tubing and any other uh intake works. Um, adding on to that, they also like"
+      },
+      {
+        "start": 108.96,
+        "text": "really fit the approach we went with of pulling the artifacts up into our storage system since that's what we"
+      },
+      {
+        "start": 115.12,
+        "text": "ended up going with. And at the same time, a lot of the intake wheels were also out of stock."
+      },
+      {
+        "start": 121.68,
+        "text": "Thank you so much. So, on to your guys' transfer. I noticed you guys have a direction change. U this is really"
+      },
+      {
+        "start": 128.32,
+        "text": "unique. Could you guys elaborate and it like on why you did this? So, we did this direction change because"
+      },
+      {
+        "start": 135.68,
+        "text": "at first we had a robot that had human load from the top and then we later iterated on an intake that pulled balls"
+      },
+      {
+        "start": 143.84,
+        "text": "in from the bottom. This design allowed us to have both a human um human feed and regular intake like most robots"
+      },
+      {
+        "start": 152.48,
+        "text": "which allowed us to be more flexible and helped us a lot with the motif in endgame. Thanks so much. Really interesting. So"
+      },
+      {
+        "start": 159.2,
+        "text": "guys, uh onto your launcher. I noticed you guys have a stationary hood angle launcher. Um, could you guys elaborate"
+      },
+      {
+        "start": 165.28,
+        "text": "on that a little bit and like why you chose it and what are the benefits that you guys have been seeing throughout the"
+      },
+      {
+        "start": 169.68,
+        "text": "season so far? So, originally with the starter bot, the ramp was actually angled straight up."
+      },
+      {
+        "start": 177.76,
+        "text": "And basically, this only allowed us to launch from right next to the goal. But we wanted the flexibility from being"
+      },
+      {
+        "start": 184.56,
+        "text": "able to launch a close shot, a bank shot, which is kind of in the middle, and a far shot. So, we realized by"
+      },
+      {
+        "start": 190.8,
+        "text": "angling our ramp like this, it would give us the perfect arc and backspin to achieve all three of these."
+      },
+      {
+        "start": 197.36,
+        "text": "Thanks so much. From a more software perspective, I do see that you guys have a Logitech camera"
+      },
+      {
+        "start": 203.44,
+        "text": "here. So, could you tell me what you guys use that for this season? So this season we decided to use this"
+      },
+      {
+        "start": 209.6,
+        "text": "camera to detect the motif pattern in autonomous so that when uh after shooting the first two initial preloads"
+      },
+      {
+        "start": 215.6,
+        "text": "we can read the motif and pick up that desired uh row of balls. All right, thank you. So I see that you"
+      },
+      {
+        "start": 224.08,
+        "text": "guys probably having 150 points match to match would have some sort of driver assist. So what are some of like driver"
+      },
+      {
+        "start": 230.88,
+        "text": "assists that you implemented to help your driver during the teley operated period? This season we have only one um thing"
+      },
+      {
+        "start": 238.24,
+        "text": "that helps with the drivers and that's when we have specific code right when the flywheel is completely charged up we"
+      },
+      {
+        "start": 243.84,
+        "text": "have our shaft pulling in the balls automatically so that we don't have to worry about that part."
+      },
+      {
+        "start": 250.4,
+        "text": "So, also adding on to that, we have a second driver who's not only there to just add more communication, but to also"
+      },
+      {
+        "start": 257.76,
+        "text": "control our servo that allows us to align the third artifact a lot more efficiently every single time."
+      },
+      {
+        "start": 264.8,
+        "text": "Uh, for the final software question, I just wanted to ask, how were you guys able to accomplish your extremely"
+      },
+      {
+        "start": 271.28,
+        "text": "consistent nineball autonomous that you guys currently have? Uh we started off with having a regular"
+      },
+      {
+        "start": 277.92,
+        "text": "three ball, but then we innovated to getting a sixball autonomous, then six ball with camera, and then now getting a"
+      },
+      {
+        "start": 284.48,
+        "text": "nine ball autonomous with just using encoders and then predicting um when to put the servo up and when to shoot the"
+      },
+      {
+        "start": 291.92,
+        "text": "balls. Wow, that's very impressive. All right, so just onto a quick fun question. What is your most favorite"
+      },
+      {
+        "start": 298.56,
+        "text": "part of the robot? So, my favorite part of this robot, of this build, is that we have both intake"
+      },
+      {
+        "start": 306.4,
+        "text": "and human load. This is extremely unique as not many teams can do this. Most teams have either only intake or either"
+      },
+      {
+        "start": 313.92,
+        "text": "only human load. No team has both. Wow, that's really interesting and something I haven't seen a lot of. So,"
+      },
+      {
+        "start": 321.76,
+        "text": "really cool. All right, thank you guys for watching. Thank you team Turbo Terminators 30348."
+      },
+      {
+        "start": 328.72,
+        "text": "And that's a wrap on this episode of Magic Under the Hood."
+      }
+    ]
+  },
+  "paragraphs": [
+    {
+      "start": 1.12,
+      "text": "Hi guys, my name is Rob and my name is Nihal and we're both from Team Metal Magagic and today for this episode of Magic Under the Hood, we're with team 30348 Turbo Terminators, a rookie team from Ashman, Virginia participating in the Chesapeake region. And for the first question today, I wanted to ask you guys, how did you guys approach the season and some of the design challenges that came with it? So, right after the kickoff, we took heavy inspiration by reviewing a lot of videos from the 30 hours challenge from"
+    },
+    {
+      "start": 32.32,
+      "text": "a lot of veteran teams for multiple multiple weeks. Starting off, uh we had the we had the Rev starter kit which gave us like a lot of variety of parts to experiment with where we built an initial flywheel and then that eventually led to a lot more and our entire robot. All right. Thank you. That makes sense. So, could you please walk me through your transfer process starting from your intake all the way to your scoring"
+    },
+    {
+      "start": 57.76,
+      "text": "system? So, we have an intake that intakes the balls through here and once it gets pulled up, a servo hits it over to the flywheel and it gets pulled in and then shot out. All right, thank you. All right, guys. So, onto your intake. I noticed you guys use flat wheels. So what was the reason behind this choice rather than sticking to more mainstream intaking options? Yeah, so at first we were considering using surgical tubing, but we already"
+    },
+    {
+      "start": 90.56,
+      "text": "had uh flap wheels in the Rev starter kit and we wanted to experiment with them and we found them to be a very good choice and they work just as well as surgical tubing and any other uh intake works. Um, adding on to that, they also like really fit the approach we went with of pulling the artifacts up into our storage system since that's what we ended up going with. And at the same time, a lot of the intake wheels were also out of stock."
+    },
+    {
+      "start": 121.68,
+      "text": "Thank you so much. So, on to your guys' transfer. I noticed you guys have a direction change. U this is really unique. Could you guys elaborate and it like on why you did this? So, we did this direction change because at first we had a robot that had human load from the top and then we later iterated on an intake that pulled balls in from the bottom. This design allowed us to have both a human um human feed and regular intake like most robots"
+    },
+    {
+      "start": 152.48,
+      "text": "which allowed us to be more flexible and helped us a lot with the motif in endgame. Thanks so much. Really interesting. So guys, uh onto your launcher. I noticed you guys have a stationary hood angle launcher. Um, could you guys elaborate on that a little bit and like why you chose it and what are the benefits that you guys have been seeing throughout the season so far? So, originally with the starter bot, the ramp was actually angled straight up."
+    },
+    {
+      "start": 177.76,
+      "text": "And basically, this only allowed us to launch from right next to the goal. But we wanted the flexibility from being able to launch a close shot, a bank shot, which is kind of in the middle, and a far shot. So, we realized by angling our ramp like this, it would give us the perfect arc and backspin to achieve all three of these. Thanks so much. From a more software perspective, I do see that you guys have a Logitech camera"
+    },
+    {
+      "start": 203.44,
+      "text": "here. So, could you tell me what you guys use that for this season? So this season we decided to use this camera to detect the motif pattern in autonomous so that when uh after shooting the first two initial preloads we can read the motif and pick up that desired uh row of balls. All right, thank you. So I see that you guys probably having 150 points match to match would have some sort of driver assist. So what are some of like driver"
+    },
+    {
+      "start": 230.88,
+      "text": "assists that you implemented to help your driver during the teley operated period? This season we have only one um thing that helps with the drivers and that's when we have specific code right when the flywheel is completely charged up we have our shaft pulling in the balls automatically so that we don't have to worry about that part. So, also adding on to that, we have a second driver who's not only there to just add more communication, but to also"
+    },
+    {
+      "start": 257.76,
+      "text": "control our servo that allows us to align the third artifact a lot more efficiently every single time. Uh, for the final software question, I just wanted to ask, how were you guys able to accomplish your extremely consistent nineball autonomous that you guys currently have? Uh we started off with having a regular three ball, but then we innovated to getting a sixball autonomous, then six ball with camera, and then now getting a nine ball autonomous with just using encoders and then predicting um when to put the servo up and when to shoot the"
+    },
+    {
+      "start": 291.92,
+      "text": "balls. Wow, that's very impressive. All right, so just onto a quick fun question. What is your most favorite part of the robot? So, my favorite part of this robot, of this build, is that we have both intake and human load. This is extremely unique as not many teams can do this. Most teams have either only intake or either only human load. No team has both. Wow, that's really interesting and something I haven't seen a lot of. So,"
+    },
+    {
+      "start": 321.76,
+      "text": "really cool. All right, thank you guys for watching. Thank you team Turbo Terminators 30348. And that's a wrap on this episode of Magic Under the Hood."
+    }
+  ],
+  "showNotes": {
+    "summary": "In this episode of Magic Under the Hood, hosts Rob and Nihal interview rookie FTC team 30348, the Turbo Terminators from Ashburn, Virginia. The team shares insights into their robot's design, including their unique intake and transfer system, stationary hood angle launcher, and software strategies. They also discuss how they achieved an impressive nine-ball autonomous routine using encoders and camera detection.",
+    "chapters": [
+      {
+        "time": "0:01",
+        "seconds": 1,
+        "title": "Introduction and Season Approach"
+      },
+      {
+        "time": "0:52",
+        "seconds": 52,
+        "title": "Intake and Transfer Design"
+      },
+      {
+        "time": "2:08",
+        "seconds": 128,
+        "title": "The Direction Change Innovation"
+      },
+      {
+        "time": "2:39",
+        "seconds": 159,
+        "title": "Stationary Hood Angle Launcher"
+      },
+      {
+        "time": "3:17",
+        "seconds": 197,
+        "title": "Camera and Driver Assist Software"
+      },
+      {
+        "time": "4:24",
+        "seconds": 264,
+        "title": "Achieving Nine-Ball Autonomous"
+      },
+      {
+        "time": "4:51",
+        "seconds": 291,
+        "title": "Favorite Robot Features"
+      }
+    ],
+    "pullQuotes": [
+      {
+        "time": "0:24",
+        "seconds": 24,
+        "quote": "So, right after the kickoff, we took heavy inspiration by reviewing a lot of videos from the 30 hours challenge from a lot of veteran teams for multiple multiple weeks."
+      },
+      {
+        "time": "1:30",
+        "seconds": 90,
+        "quote": "we already had uh flap wheels in the Rev starter kit and we wanted to experiment with them and we found them to be a very good choice"
+      },
+      {
+        "time": "2:15",
+        "seconds": 135,
+        "quote": "at first we had a robot that had human load from the top and then we later iterated on an intake that pulled balls in from the bottom."
+      },
+      {
+        "time": "3:10",
+        "seconds": 190,
+        "quote": "we realized by angling our ramp like this, it would give us the perfect arc and backspin to achieve all three of these."
+      }
+    ],
+    "youtubeChapterBlock": "0:01 Introduction and Season Approach\n0:52 Intake and Transfer Design\n2:08 The Direction Change Innovation\n2:39 Stationary Hood Angle Launcher\n3:17 Camera and Driver Assist Software\n4:24 Achieving Nine-Ball Autonomous\n4:51 Favorite Robot Features"
+  },
+  "clips": [
+    {
+      "start": "1:16",
+      "startSeconds": 76,
+      "end": "2:01",
+      "endSeconds": 121,
+      "reason": "The team explains how they innovated with flap wheels from their starter kit when other intake wheels were out of stock.",
+      "caption": "Out of stock parts? No problem! Turbo Terminators used flap wheels to get the job done. ⚙️ #FTC #FIRSTrobotics"
+    },
+    {
+      "start": "2:39",
+      "startSeconds": 159,
+      "end": "3:17",
+      "endSeconds": 197,
+      "reason": "The team details how they modified their launcher ramp angle to achieve close, bank, and far shots with perfect arc and backspin.",
+      "caption": "How to get the perfect arc and backspin for close, bank, and far shots! 🏀 #FTC #FIRSTrobotics"
+    },
+    {
+      "start": "4:24",
+      "startSeconds": 264,
+      "end": "4:58",
+      "endSeconds": 298,
+      "reason": "The team shares their progression from a 3-ball to an extremely consistent 9-ball autonomous program using encoders.",
+      "caption": "From a 3-ball to a 9-ball autonomous! Here is how Turbo Terminators did it using encoders. 💻 #FTC #FIRSTrobotics"
+    }
+  ],
+  "generatedAt": "2026-07-23T04:51:17.364Z"
+}

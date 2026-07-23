@@ -1,0 +1,29 @@
+[
+  {
+    "id": "vDX-ht7H9Fw",
+    "title": "FTC DECODE Robot in 30 Hours - Metal Magic 23362",
+    "durationSeconds": 341,
+    "uploadDate": "20250907",
+    "thumbnail": "https://i.ytimg.com/vi/vDX-ht7H9Fw/maxresdefault.jpg",
+    "summary": "This episode features an interview with FTC team 23362 Metal Magic about their experience completing the Robot in 30 Hours challenge. The team discusses transitioning to a custom 3D-printed chassis, their roller-based intake and transfer system, and their future plans for a color-sorting mechanism. They also share insights into their software setup, including Limelight vision tracking, odometry, and the importance of rapid prototyping.",
+    "hasTranscript": true
+  },
+  {
+    "id": "EK5vX8DDwtE",
+    "title": "Magic Under The Hood - Turbo Terminators 30348 - Hosted by Metal Magic FTC DECODE",
+    "durationSeconds": 337,
+    "uploadDate": "20260205",
+    "thumbnail": "https://i.ytimg.com/vi/EK5vX8DDwtE/maxresdefault.jpg",
+    "summary": "In this episode of Magic Under the Hood, hosts Rob and Nihal interview rookie FTC team 30348, the Turbo Terminators from Ashburn, Virginia. The team shares insights into their robot's design, including their unique intake and transfer system, stationary hood angle launcher, and software strategies. They also discuss how they achieved an impressive nine-ball autonomous routine using encoders and camera detection.",
+    "hasTranscript": true
+  },
+  {
+    "id": "addp3fU6f_4",
+    "title": "Magic Under The Hood - System Overload 27489 - Hosted by Metal Magic FTC DECODE",
+    "durationSeconds": 384,
+    "uploadDate": "20260205",
+    "thumbnail": "https://i.ytimg.com/vi/addp3fU6f_4/maxresdefault.jpg",
+    "summary": "In this episode of Magic Under the Hood, hosts Arov and Nihal interview Team 27489, System Overload, a second-year FTC team from Ashburn, Virginia. The team shares insights into their robot's design, including their unique intake, belt-and-wheel transfer mechanism, and dual flywheel outtake. They also discuss their transition to Java, their six-ball autonomous routine, and the story behind their mascot, Pumba.",
+    "hasTranscript": true
+  }
+]

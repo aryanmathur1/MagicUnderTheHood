@@ -1,0 +1,142 @@
+---
+import Base from '../layouts/Base.astro';
+import AskPodcast from '../components/AskPodcast.astro';
+import EpisodeCard from '../components/EpisodeCard.astro';
+import { site } from '../../config/site.js';
+import manifest from '../data/manifest.json';
+
+const episodes = manifest;
+const featured = episodes.slice(0, 3);
+---
+
+<Base path="/">
+  <section class="hero section">
+    <div class="container">
+      <p class="eyebrow">{site.team} · {site.location}</p>
+      <h1>Every episode of our robotics podcast,<br /> finally searchable.</h1>
+      <p class="lede">
+        {site.name} is a searchable archive of the first FTC interview podcast in the
+        Chesapeake region. Ask a question in plain English and get an answer built only
+        from what teams actually said — linked to the exact moment on YouTube.
+      </p>
+
+      <div class="hero-ask">
+        <AskPodcast autofocus={true} />
+      </div>
+
+      <p class="hero-note">
+        Answers come only from our {episodes.length} episode transcripts. When the archive
+        doesn’t cover something, it says so — no guessing.
+      </p>
+    </div>
+  </section>
+
+  <section class="section featured">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">The archive</p>
+          <h2>Browse the episodes</h2>
+        </div>
+        <a class="btn btn-ghost" href="/episodes/">All episodes →</a>
+      </div>
+      <div class="grid">
+        {featured.map((ep) => <EpisodeCard ep={ep} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section how">
+    <div class="container">
+      <p class="eyebrow">How it works</p>
+      <h2>Built for teams who need answers fast</h2>
+      <div class="how-grid">
+        <div class="how-card card">
+          <span class="how-num">1</span>
+          <h3>Full transcripts</h3>
+          <p>
+            Every episode has a complete, timestamped transcript. Read it on the page or
+            jump straight to any moment on YouTube.
+          </p>
+        </div>
+        <div class="how-card card">
+          <span class="how-num">2</span>
+          <h3>Ask the podcast</h3>
+          <p>
+            Semantic search across all episodes. Get a synthesized answer with the exact
+            quotes and timestamps it came from.
+          </p>
+        </div>
+        <div class="how-card card">
+          <span class="how-num">3</span>
+          <h3>Show notes & clips</h3>
+          <p>
+            Auto-generated summaries, chapter markers, pull quotes, and the most shareable
+            moments — ready to post.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hero {
+      padding-bottom: 1rem;
+    }
+    .hero h1 {
+      max-width: 20ch;
+    }
+    .hero-ask {
+      margin-top: 2rem;
+    }
+    .hero-note {
+      margin-top: 1rem;
+      color: var(--gray);
+      font-size: 0.92rem;
+    }
+    .sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .sec-head h2 {
+      margin: 0;
+    }
+    .how-grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-top: 1.5rem;
+    }
+    .how-card {
+      padding: 1.5rem;
+    }
+    .how-num {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--purple-050);
+      color: var(--purple);
+      font-family: var(--font-head);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+    .how-card h3 {
+      margin-bottom: 0.4rem;
+    }
+    .how-card p {
+      color: var(--ink-soft);
+      margin: 0;
+      font-size: 0.96rem;
+    }
+    .featured {
+      background: var(--bg-soft);
+      border-block: 1px solid var(--line);
+    }
+  </style>
+</Base>

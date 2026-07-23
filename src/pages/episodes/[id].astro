@@ -1,0 +1,335 @@
+---
+import Base from '../../layouts/Base.astro';
+import { formatTimestamp, youtubeAt, humanDuration, formatUploadDate, teamFromTitle } from '../../lib/util.js';
+
+export async function getStaticPaths() {
+  // Vite bundles every committed episode JSON at build time. Add an episode by
+  // running the pipeline (which writes a new file here) — no code change needed.
+  const modules = import.meta.glob('../../data/episodes/*.json', { eager: true });
+  const eps = Object.values(modules)
+    .map((m) => m.default)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  return eps.map((ep) => ({ params: { id: ep.id }, props: { ep } }));
+}
+
+const { ep } = Astro.props;
+const team = teamFromTitle(ep.title);
+const notes = ep.showNotes;
+const clips = ep.clips || [];
+const paragraphs = ep.paragraphs || [];
+const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
+---
+
+<Base path={`/episodes/${ep.id}/`} title={ep.title} description={notes?.summary || ep.description?.slice(0, 155)}>
+  <article class="section">
+    <div class="container">
+      <a class="back" href="/episodes/">← All episodes</a>
+      <div class="ep-head">
+        <div class="tags">
+          {team && <span class="chip">{team}</span>}
+          {ep.uploadDate && <span class="date">{formatUploadDate(ep.uploadDate)}</span>}
+          {ep.durationSeconds && <span class="date">· {humanDuration(ep.durationSeconds)}</span>}
+        </div>
+        <h1>{ep.title}</h1>
+      </div>
+
+      <div class="player card">
+        <iframe
+          id="player"
+          src={embedBase}
+          title={`YouTube video player: ${ep.title}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"></iframe>
+      </div>
+
+      <div class="layout">
+        <div class="main-col">
+          {
+            notes?.summary && (
+              <section class="block" aria-labelledby="summary-h">
+                <h2 id="summary-h">Episode summary</h2>
+                <p class="summary-text">{notes.summary}</p>
+              </section>
+            )
+          }
+
+          {
+            notes?.pullQuotes?.length > 0 && (
+              <section class="block" aria-labelledby="quotes-h">
+                <h2 id="quotes-h">Pull quotes</h2>
+                <div class="quotes">
+                  {notes.pullQuotes.map((q) => (
+                    <figure class="quote card">
+                      <blockquote>“{q.quote}”</blockquote>
+                      <figcaption>
+                        <a class="ts" href={youtubeAt(ep.id, q.seconds)} data-seconds={q.seconds}>
+                          ▶ {q.time}
+                        </a>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </section>
+            )
+          }
+
+          <section class="block" aria-labelledby="transcript-h">
+            <h2 id="transcript-h">Full transcript</h2>
+            {
+              paragraphs.length ? (
+                <Fragment>
+                <p class="transcript-note">
+                  Auto-generated from the episode captions. Click any timestamp to jump to that
+                  moment.
+                </p>
+                <div class="transcript">
+                  {paragraphs.map((p) => (
+                    <p class="tp">
+                      <a
+                        class="ts"
+                        href={youtubeAt(ep.id, p.start)}
+                        data-seconds={p.start}
+                        aria-label={`Play from ${formatTimestamp(p.start)}`}
+                      >
+                        {formatTimestamp(p.start)}
+                      </a>
+                      <span>{p.text}</span>
+                    </p>
+                  ))}
+                </div>
+                </Fragment>
+              ) : (
+                <p class="muted">
+                  A transcript for this episode is being generated. Check back soon, or watch
+                  on <a href={ep.url} rel="noopener">YouTube</a>.
+                </p>
+              )
+            }
+          </section>
+        </div>
+
+        <aside class="side-col">
+          {
+            notes?.chapters?.length > 0 && (
+              <nav class="side-card card" aria-labelledby="chapters-h">
+                <h2 id="chapters-h">Chapters</h2>
+                <ol class="chapters">
+                  {notes.chapters.map((c) => (
+                    <li>
+                      <a class="chapter" href={youtubeAt(ep.id, c.seconds)} data-seconds={c.seconds}>
+                        <span class="ts">{c.time}</span>
+                        <span>{c.title}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )
+          }
+
+          {
+            notes?.youtubeChapterBlock && (
+              <div class="side-card card">
+                <h2>YouTube chapters</h2>
+                <p class="muted small">Copy-paste into your video description:</p>
+                <pre class="copyblock" id="chapterblock">{notes.youtubeChapterBlock}</pre>
+                <button class="btn btn-ghost copy-btn" data-copy-target="chapterblock">
+                  Copy chapters
+                </button>
+              </div>
+            )
+          }
+
+          {
+            clips.length > 0 && (
+              <div class="side-card card" aria-labelledby="clips-h">
+                <h2 id="clips-h">Shareable clips</h2>
+                <p class="muted small">Best moments for Reels / Shorts.</p>
+                <ul class="clips">
+                  {clips.map((clip, i) => (
+                    <li class="clip">
+                      <div class="clip-time">
+                        <a class="ts" href={youtubeAt(ep.id, clip.startSeconds)} data-seconds={clip.startSeconds}>
+                          ▶ {clip.start}
+                        </a>
+                        <span class="muted small">→ {clip.end}</span>
+                      </div>
+                      <p class="clip-reason">{clip.reason}</p>
+                      <p class="clip-caption" id={`cap-${i}`}>{clip.caption}</p>
+                      <button class="btn btn-ghost small copy-btn" data-copy-target={`cap-${i}`}>
+                        Copy caption
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+
+          {
+            !notes && (
+              <div class="side-card card">
+                <h2>Show notes coming soon</h2>
+                <p class="muted small">
+                  Summary, chapters, pull quotes, and clips are generated by the build
+                  pipeline. Run <code>npm run regenerate</code> with an API key set to fill
+                  these in.
+                </p>
+              </div>
+            )
+          }
+
+          <div class="side-card card">
+            <a class="btn btn-primary full" href={ep.url} rel="noopener">Watch on YouTube ↗</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .back {
+      display: inline-block;
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+    }
+    .back:hover { color: var(--purple); }
+    .ep-head { margin-bottom: 1.25rem; }
+    .ep-head h1 { margin: 0.4rem 0 0; }
+    .tags { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .date { color: var(--gray); font-size: 0.85rem; }
+    .player {
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      padding: 0;
+      border-radius: var(--radius);
+    }
+    .player iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 2rem;
+      margin-top: 2rem;
+      align-items: start;
+    }
+    .block { margin-bottom: 2.5rem; }
+    .block h2 { margin-bottom: 0.75rem; }
+    .summary-text { font-size: 1.1rem; color: var(--ink); }
+    .quotes { display: grid; gap: 1rem; }
+    .quote { padding: 1.1rem 1.25rem; }
+    .quote blockquote {
+      margin: 0 0 0.6rem;
+      font-family: var(--font-head);
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    .quote figcaption { margin: 0; }
+    .transcript-note { color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem; }
+    .transcript { display: flex; flex-direction: column; gap: 0.35rem; }
+    .tp {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.55rem 0.6rem;
+      border-radius: 10px;
+      margin: 0;
+    }
+    .tp:hover { background: var(--bg-soft); }
+    .tp span { color: var(--ink); }
+    .side-col { display: flex; flex-direction: column; gap: 1.25rem; position: sticky; top: 88px; }
+    .side-card { padding: 1.25rem; }
+    .side-card h2 { font-size: 1.05rem; margin-bottom: 0.6rem; }
+    .chapters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.15rem; counter-reset: none; }
+    .chapter {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.6rem;
+      align-items: baseline;
+      padding: 0.5rem 0.55rem;
+      border-radius: 9px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .chapter:hover { background: var(--purple-050); }
+    .copyblock {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.75rem;
+      overflow-x: auto;
+      margin: 0 0 0.75rem;
+      white-space: pre;
+      line-height: 1.6;
+    }
+    .clips { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+    .clip { border-top: 1px solid var(--line); padding-top: 1rem; }
+    .clip:first-child { border-top: 0; padding-top: 0; }
+    .clip-time { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .clip-reason { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 0.5rem; }
+    .clip-caption {
+      font-size: 0.9rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      margin: 0 0 0.6rem;
+    }
+    .btn.small { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
+    .btn.full { width: 100%; justify-content: center; }
+    .muted { color: var(--gray); }
+    .small { font-size: 0.85rem; }
+    code {
+      font-family: var(--font-mono);
+      background: var(--purple-050);
+      padding: 0.1rem 0.35rem;
+      border-radius: 5px;
+      font-size: 0.85em;
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .side-col { position: static; }
+    }
+  </style>
+
+  <script>
+    // Progressive enhancement: clicking a timestamp seeks the embedded player
+    // instead of leaving the page. Without JS, the links still work (they go to
+    // the exact moment on YouTube).
+    const player = document.getElementById('player');
+    const baseSrc = player?.getAttribute('src') || '';
+    document.querySelectorAll('a[data-seconds]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        const secs = parseInt(el.getAttribute('data-seconds'), 10);
+        if (Number.isNaN(secs) || !player) return; // fall back to the href
+        e.preventDefault();
+        const sep = baseSrc.includes('?') ? '&' : '?';
+        player.setAttribute('src', `${baseSrc}${sep}start=${secs}&autoplay=1`);
+        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+
+    // Copy-to-clipboard buttons (chapter block, clip captions).
+    document.querySelectorAll('.copy-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const target = document.getElementById(btn.getAttribute('data-copy-target'));
+        if (!target) return;
+        try {
+          await navigator.clipboard.writeText(target.innerText.trim());
+          const original = btn.textContent;
+          btn.textContent = 'Copied ✓';
+          setTimeout(() => (btn.textContent = original), 1600);
+        } catch {
+          btn.textContent = 'Press ⌘/Ctrl+C';
+        }
+      });
+    });
+  </script>
+</Base>

@@ -1,0 +1,259 @@
+---
+// The "Ask the Podcast" search box + results. This is the ONLY part of the site
+// that makes a live AI call, and it goes through /api/ask (the serverless proxy
+// that holds the key). No key ever touches this client code.
+import { guard } from '../../config/site.js';
+const { autofocus = false } = Astro.props;
+---
+
+<section class="ask" aria-labelledby="ask-heading">
+  <form class="ask-form" id="ask-form" role="search" autocomplete="off">
+    <label id="ask-heading" class="ask-label" for="ask-input">
+      Ask the podcast a question
+    </label>
+    <p class="ask-hint" id="ask-hint">
+      Plain English works — e.g. “How did teams handle sorting this season?” You’ll
+      get an answer built only from our episode transcripts, with links to the exact
+      moment.
+    </p>
+    <div class="ask-row">
+      <input
+        id="ask-input"
+        name="q"
+        type="text"
+        maxlength={guard.maxQuestionChars}
+        placeholder="Ask anything about the episodes…"
+        aria-describedby="ask-hint"
+        autofocus={autofocus}
+        required
+      />
+      <button class="btn btn-primary" type="submit" id="ask-submit">
+        <span class="ask-submit-label">Ask</span>
+      </button>
+    </div>
+    <div class="ask-meta">
+      <span class="chip" hidden id="ask-count"></span>
+    </div>
+  </form>
+
+  <div class="ask-results" id="ask-results" aria-live="polite" aria-atomic="false"></div>
+</section>
+
+<style>
+  .ask {
+    background: linear-gradient(180deg, var(--purple-050), #fff);
+    border: 1px solid var(--purple-100);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.25rem, 4vw, 2rem);
+    box-shadow: var(--shadow);
+  }
+  .ask-label {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+  .ask-hint {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    max-width: 62ch;
+  }
+  .ask-row {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .ask-row input {
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    min-width: 0;
+  }
+  .ask-row input:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 1px;
+    border-color: var(--purple);
+  }
+  .ask-meta {
+    min-height: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .ask-results {
+    margin-top: 1.25rem;
+  }
+  .answer-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .answer-card h3 {
+    margin-top: 0;
+  }
+  .answer-body {
+    font-size: 1.05rem;
+    color: var(--ink);
+    white-space: pre-wrap;
+  }
+  .sources {
+    margin-top: 1.25rem;
+    border-top: 1px dashed var(--line);
+    padding-top: 1rem;
+  }
+  .sources h4 {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    margin: 0 0 0.75rem;
+  }
+  .source {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .source:last-child {
+    border-bottom: 0;
+  }
+  .source blockquote {
+    margin: 0.35rem 0 0;
+    padding-left: 0.8rem;
+    border-left: 3px solid var(--purple-100);
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+  .source-ep {
+    font-weight: 600;
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+  }
+  .ask-status {
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+  }
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--purple-100);
+    border-top-color: var(--purple);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex: none;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spinner {
+      animation: none;
+    }
+  }
+  .ask-error {
+    background: #fff4f4;
+    border: 1px solid #f3d0d0;
+    color: #8a2a2a;
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+  @media (max-width: 560px) {
+    .ask-row {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('ask-form');
+  const input = document.getElementById('ask-input');
+  const results = document.getElementById('ask-results');
+  const submit = document.getElementById('ask-submit');
+  const submitLabel = submit.querySelector('.ask-submit-label');
+
+  const esc = (s) =>
+    String(s ?? '').replace(/[&<>"']/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+    );
+
+  function setBusy(busy) {
+    submit.disabled = busy;
+    input.disabled = busy;
+    submitLabel.textContent = busy ? 'Asking…' : 'Ask';
+  }
+
+  function renderStatus(msg) {
+    results.innerHTML = `<div class="ask-status"><span class="spinner" aria-hidden="true"></span><span>${esc(
+      msg
+    )}</span></div>`;
+  }
+
+  function renderError(msg) {
+    results.innerHTML = `<div class="ask-error" role="alert">${esc(msg)}</div>`;
+  }
+
+  function renderAnswer(data) {
+    const sources = Array.isArray(data.sources) ? data.sources : [];
+    const sourcesHtml = sources.length
+      ? `<div class="sources"><h4>Sources — verify for yourself</h4>${sources
+          .map(
+            (s) => `
+        <div class="source">
+          <div>
+            <div class="source-ep">${esc(s.episode)}</div>
+            <a class="ts" href="${esc(s.url)}" target="_blank" rel="noopener">▶ ${esc(
+              s.timestamp
+            )}</a>
+            ${s.quote ? `<blockquote>“${esc(s.quote)}”</blockquote>` : ''}
+          </div>
+        </div>`
+          )
+          .join('')}</div>`
+      : '';
+
+    results.innerHTML = `
+      <article class="answer-card">
+        <h3>Answer</h3>
+        <div class="answer-body">${esc(data.answer)}</div>
+        ${sourcesHtml}
+      </article>`;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (!q) return;
+    setBusy(true);
+    renderStatus('Searching the transcripts…');
+    try {
+      const res = await fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ question: q }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        renderError(data.error || `Something went wrong (${res.status}). Please try again.`);
+      } else {
+        renderAnswer(data);
+      }
+    } catch (err) {
+      renderError('Could not reach the search service. Check your connection and try again.');
+    } finally {
+      setBusy(false);
+    }
+  });
+</script>

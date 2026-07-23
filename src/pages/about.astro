@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../../config/site.js';
+---
+
+<Base path="/about/" title="About">
+  <section class="section">
+    <div class="container narrow">
+      <p class="eyebrow">About</p>
+      <h1>Making our podcast findable</h1>
+      <p class="lede">
+        {site.team} runs the first FTC interview podcast in the Chesapeake region. We sit down
+        with other teams and pull out the real, practical advice — how they designed a
+        mechanism, how they organized their season, what they’d do differently. Great stuff,
+        but it was trapped inside videos. This site sets it free.
+      </p>
+
+      <h2>What this site does</h2>
+      <ul class="prose-list">
+        <li><strong>Full transcripts</strong> for every episode, so the advice is readable and searchable — good for accessibility and for search engines.</li>
+        <li><strong>Ask the Podcast</strong>: type a question in plain English and get an answer stitched together from what teams actually said, with links to the exact moment.</li>
+        <li><strong>Show notes</strong>: a summary, chapter markers, and pull quotes for each episode.</li>
+        <li><strong>Clip finder</strong>: the most shareable moments, ready for Reels and Shorts.</li>
+      </ul>
+
+      <h2>How we keep it honest</h2>
+      <p>We care a lot about not putting words in anyone’s mouth. So we built in guardrails:</p>
+      <ul class="prose-list">
+        <li><strong>Answers come only from the transcripts.</strong> If the archive doesn’t cover your question, the site says so plainly instead of guessing.</li>
+        <li><strong>Every answer shows its sources</strong> — the episode name and a timestamp link — so you can watch it yourself and verify.</li>
+        <li><strong>We quote or clearly paraphrase.</strong> We never invent a quote or attribute something a guest didn’t say.</li>
+        <li><strong>It’s written for students.</strong> The whole archive is kept appropriate for a school audience.</li>
+      </ul>
+
+      <h2>How it’s built</h2>
+      <p>
+        All the heavy lifting — transcription, summaries, chapter markers, clip picks, and the
+        search index — happens ahead of time in an offline script and is saved as plain files.
+        That keeps the live site fast and inexpensive to run. The only thing that happens live
+        is answering your question, and that request goes through a small secure service so our
+        API key is never exposed. If you’re curious about the details, our team documented the
+        whole pipeline in <code>ARCHITECTURE.md</code>.
+      </p>
+
+      <div class="cta-card card">
+        <div>
+          <h3>Watch the full episodes</h3>
+          <p class="muted">Everything here links back to the original videos.</p>
+        </div>
+        <a class="btn btn-primary" href={site.channelUrl} rel="noopener">Our YouTube channel ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .narrow { max-width: 760px; }
+    h2 { margin-top: 2.5rem; }
+    .prose-list { padding-left: 1.2rem; color: var(--ink-soft); }
+    .prose-list li { margin-bottom: 0.6rem; }
+    .prose-list strong { color: var(--ink); }
+    code {
+      font-family: var(--font-mono);
+      background: var(--purple-050);
+      padding: 0.1rem 0.35rem;
+      border-radius: 5px;
+      font-size: 0.85em;
+    }
+    .cta-card {
+      margin-top: 3rem;
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      background: var(--purple-050);
+      border-color: var(--purple-100);
+    }
+    .cta-card h3 { margin: 0 0 0.25rem; }
+    .cta-card p { margin: 0; }
+    .muted { color: var(--gray); }
+  </style>
+</Base>

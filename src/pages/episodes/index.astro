@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import EpisodeCard from '../../components/EpisodeCard.astro';
+import manifest from '../../data/manifest.json';
+const episodes = manifest;
+---
+
+<Base path="/episodes/" title="Episodes">
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">The archive</p>
+      <h1>Episodes</h1>
+      <p class="lede">
+        {episodes.length} episodes of Magic Under the Hood. Each one has a full transcript,
+        chapter markers, and shareable clips. Click any episode to read along and jump to
+        the moments that matter.
+      </p>
+      <div class="grid" style="margin-top:2rem">
+        {episodes.map((ep) => <EpisodeCard ep={ep} />)}
+      </div>
+    </div>
+  </section>
+</Base>

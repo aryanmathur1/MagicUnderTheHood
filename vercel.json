@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "astro build",
+  "outputDirectory": "dist",
+  "framework": "astro",
+  "functions": {
+    "api/ask.js": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  }
+}

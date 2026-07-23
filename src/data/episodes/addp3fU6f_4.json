@@ -1,0 +1,381 @@
+{
+  "id": "addp3fU6f_4",
+  "url": "https://www.youtube.com/watch?v=addp3fU6f_4",
+  "title": "Magic Under The Hood - System Overload 27489 - Hosted by Metal Magic FTC DECODE",
+  "description": "27489 System Overload, a second year FTC team from Ashburn, VA shares their bot design and story on Magic Under The Hood hosted by Metal Magic FTC! \n\n#robotics #ftc #interview #firsttechchallenge",
+  "durationSeconds": 384,
+  "uploadDate": "20260205",
+  "channel": "Metal Magic",
+  "channelUrl": "https://www.youtube.com/channel/UClHJH8_tKVWbrV5nmi84Xmg",
+  "thumbnail": "https://i.ytimg.com/vi/addp3fU6f_4/maxresdefault.jpg",
+  "order": 2,
+  "transcript": {
+    "source": "youtube-captions",
+    "segments": [
+      {
+        "start": 1.36,
+        "text": "Hi guys, my name is Arov and my name is Nihal and for this episode of Magic Under the Hood, we're"
+      },
+      {
+        "start": 6.56,
+        "text": "with team 27489 System Overload, a secondyear team from Ashen, Virginia in the Chesapeake region. And to start us off, my first"
+      },
+      {
+        "start": 14.32,
+        "text": "question to you guys is how did you guys approach the season and some of the design challenges that came with it?"
+      },
+      {
+        "start": 20.48,
+        "text": "Okay, so before the season, we actually decided to use something called Viper Slides because we saw that was very"
+      },
+      {
+        "start": 25.52,
+        "text": "efficient in last year's season. So, we had thought that last year's season would um implement the Viper sides would"
+      },
+      {
+        "start": 31.2,
+        "text": "implement onto this year's season, but as we all know that Viper sides can only be used during endgame to lift up the"
+      },
+      {
+        "start": 37.44,
+        "text": "robot and we didn't want to take that chance. So, we actually decided to look at robot in 30 hours. So, we um and that"
+      },
+      {
+        "start": 44.96,
+        "text": "taught us about doing have a consistent outtake, some kind of transfer, and a consistent intake."
+      },
+      {
+        "start": 52.56,
+        "text": "So speaking of intake transfer and outtake, can you just walk me through your scoring process from intake to"
+      },
+      {
+        "start": 57.92,
+        "text": "scoring? So uh the our the scoring process starts with our intake which obviously pulls the balls in and then it goes into our"
+      },
+      {
+        "start": 67.36,
+        "text": "uh transfer mechanism which is using two wheels and a belt. And as soon as the ball comes in, it gets squeezed in"
+      },
+      {
+        "start": 74.48,
+        "text": "between this belt and this foam that we used which forces the ball to go up when the pulley spins. After that, it reaches"
+      },
+      {
+        "start": 81.68,
+        "text": "this gate that we use so that balls don't go into the outtake when we don't want them to. And as soon as we're ready"
+      },
+      {
+        "start": 87.84,
+        "text": "to shoot, we open this gate and the ball goes through into the outtake. All right. Yes. So, onto your guys's"
+      },
+      {
+        "start": 96.48,
+        "text": "intake. I noticed your intake is really unique. Can you just explain how it works and what led you to use this"
+      },
+      {
+        "start": 102.64,
+        "text": "instead of a traditional surgical tubing based intake or gecko wheels? Uh we used this red intake flap"
+      },
+      {
+        "start": 110.64,
+        "text": "mechanism because we found that it was better than the surgical tube because surgical tubes have a very low surface"
+      },
+      {
+        "start": 117.04,
+        "text": "area and the red intake flaps cover and hit more of the ball and push them into the transfer better. We found this was"
+      },
+      {
+        "start": 126.32,
+        "text": "better than gecko gears because gecko gears require motors that spin fast and they're not very pliable. While on the"
+      },
+      {
+        "start": 132.56,
+        "text": "other hand, red intake flaps are very pliable and they melt to the ball and make it come up. We also use these red"
+      },
+      {
+        "start": 139.36,
+        "text": "3D printed blocks to help guide our balls into the in into the pulley mechanism system because they were"
+      },
+      {
+        "start": 146.48,
+        "text": "getting consistently jammed over here. We also used two gears and a motor at a 90° angle to create our intake"
+      },
+      {
+        "start": 155.44,
+        "text": "mechanism, but we were finding that the gears were coming loose and not pressing into each other enough. So, we use a"
+      },
+      {
+        "start": 162.48,
+        "text": "section from a ballpoint pen to work as our spacer to make sure that they stayed the same."
+      },
+      {
+        "start": 169.12,
+        "text": "Thank you so much. So, I see you guys have a dual flywheel outtake. Can you can you guys just explain why you"
+      },
+      {
+        "start": 175.92,
+        "text": "decided to go this route and how it works and what are the advantages of this? So we decided to go with the dual fly"
+      },
+      {
+        "start": 184.96,
+        "text": "wheels because again as a Nick said we basically got a lot of inspiration from robot in 30 hours. Though recently we"
+      },
+      {
+        "start": 192.64,
+        "text": "thought of doing a juster outtake. Basically like this mechanism right here would like um be like connected to a"
+      },
+      {
+        "start": 200.16,
+        "text": "server which would go up and down but we realized that it wasn't wouldn't work because the server would be too under"
+      },
+      {
+        "start": 205.44,
+        "text": "too much stress and we scrapped that. Thank you. So um what do you guys find is the most unique part of your robot? I"
+      },
+      {
+        "start": 214.32,
+        "text": "see you guys have a lot of aspects. So what is your unique and most favorite? So, I think one of the most unique parts"
+      },
+      {
+        "start": 220.24,
+        "text": "of our robot is the transfer mechanism, which as I mentioned before, uses the two wheels and the belt to pull the"
+      },
+      {
+        "start": 227.2,
+        "text": "balls up. And we haven't really seen that many other teams doing that, so it's pretty unique."
+      },
+      {
+        "start": 232.56,
+        "text": "Thank you so much. Okay, so moving on to some of the more software related questions. How did you"
+      },
+      {
+        "start": 239.52,
+        "text": "guys implement driver assist into this season to help your driver in the teleyoperated period?"
+      },
+      {
+        "start": 245.68,
+        "text": "So, we wanted to be be able to both shoot from close and far side. And what a feature that in our programming is we"
+      },
+      {
+        "start": 253.04,
+        "text": "can adjust the speed of our motors that control these wheels. So, to like be able to like switch quickly, we put like"
+      },
+      {
+        "start": 260.08,
+        "text": "some hot keys on a controller which quickly switch from the best power through fall and close."
+      },
+      {
+        "start": 266.88,
+        "text": "Were there any software changes that you guys made from last season to this season that helped your team progress?"
+      },
+      {
+        "start": 273.68,
+        "text": "Last season we mainly used blocks but this season we switched to Java for more precise um coding and stuff like that."
+      },
+      {
+        "start": 281.2,
+        "text": "Also we use Java to be more versatile and be able to implement the uh power changes to the motors. And finally from"
+      },
+      {
+        "start": 291.12,
+        "text": "the software perspective I saw that you guys had a six ball auto from both far and close. So could you walk me through"
+      },
+      {
+        "start": 298.48,
+        "text": "some of the steps that you guys went through to get that? To get to six ball auto. Originally we"
+      },
+      {
+        "start": 303.28,
+        "text": "had only three ball auto and even so but we realized like a lot of teams have like six to like nine balls. So we"
+      },
+      {
+        "start": 310.64,
+        "text": "decided to um change up and uh figure out a way to like get all six balls. So the the way it works it starts with"
+      },
+      {
+        "start": 320.4,
+        "text": "three preloaded balls. It would shoot it then it would go and and take the close three balls. It would go back and shoot"
+      },
+      {
+        "start": 326.96,
+        "text": "those again. All right. Thank you. Okay. So on to a fun little question. I noticed you guys have a Pumba on your"
+      },
+      {
+        "start": 333.68,
+        "text": "robot. Um, is there any significance or is there any special reason? So, the main reason we have a Pumba on"
+      },
+      {
+        "start": 341.36,
+        "text": "our robot from Lion King is because last year we had Joffrey the giraffe from the Toys R Us um mascot and because our"
+      },
+      {
+        "start": 348.32,
+        "text": "robot last year was the starter bot from Go Builda and we kind of saw that it like looked like a giraffe and so this"
+      },
+      {
+        "start": 354.4,
+        "text": "year we wanted to continue the uh trend of having animals. So when we looked at our robot, we thought like what does it"
+      },
+      {
+        "start": 360.72,
+        "text": "look like the most? And we realized like this looks like tusks and our gate looks like a tooth. Um, and it kind of"
+      },
+      {
+        "start": 366.24,
+        "text": "reminded us from Pumba. Fun. That's really cool. All right guys, that's a wrap on this episode of Magic"
+      },
+      {
+        "start": 374.4,
+        "text": "Under the Hood. And I hope you guys enjoyed our talk with team 27489 system overload."
+      }
+    ]
+  },
+  "paragraphs": [
+    {
+      "start": 1.36,
+      "text": "Hi guys, my name is Arov and my name is Nihal and for this episode of Magic Under the Hood, we're with team 27489 System Overload, a secondyear team from Ashen, Virginia in the Chesapeake region. And to start us off, my first question to you guys is how did you guys approach the season and some of the design challenges that came with it? Okay, so before the season, we actually decided to use something called Viper Slides because we saw that was very"
+    },
+    {
+      "start": 25.52,
+      "text": "efficient in last year's season. So, we had thought that last year's season would um implement the Viper sides would implement onto this year's season, but as we all know that Viper sides can only be used during endgame to lift up the robot and we didn't want to take that chance. So, we actually decided to look at robot in 30 hours. So, we um and that taught us about doing have a consistent outtake, some kind of transfer, and a consistent intake."
+    },
+    {
+      "start": 52.56,
+      "text": "So speaking of intake transfer and outtake, can you just walk me through your scoring process from intake to scoring? So uh the our the scoring process starts with our intake which obviously pulls the balls in and then it goes into our uh transfer mechanism which is using two wheels and a belt. And as soon as the ball comes in, it gets squeezed in between this belt and this foam that we used which forces the ball to go up when the pulley spins. After that, it reaches"
+    },
+    {
+      "start": 81.68,
+      "text": "this gate that we use so that balls don't go into the outtake when we don't want them to. And as soon as we're ready to shoot, we open this gate and the ball goes through into the outtake. All right. Yes. So, onto your guys's intake. I noticed your intake is really unique. Can you just explain how it works and what led you to use this instead of a traditional surgical tubing based intake or gecko wheels? Uh we used this red intake flap"
+    },
+    {
+      "start": 110.64,
+      "text": "mechanism because we found that it was better than the surgical tube because surgical tubes have a very low surface area and the red intake flaps cover and hit more of the ball and push them into the transfer better. We found this was better than gecko gears because gecko gears require motors that spin fast and they're not very pliable. While on the other hand, red intake flaps are very pliable and they melt to the ball and make it come up. We also use these red"
+    },
+    {
+      "start": 139.36,
+      "text": "3D printed blocks to help guide our balls into the in into the pulley mechanism system because they were getting consistently jammed over here. We also used two gears and a motor at a 90° angle to create our intake mechanism, but we were finding that the gears were coming loose and not pressing into each other enough. So, we use a section from a ballpoint pen to work as our spacer to make sure that they stayed the same."
+    },
+    {
+      "start": 169.12,
+      "text": "Thank you so much. So, I see you guys have a dual flywheel outtake. Can you can you guys just explain why you decided to go this route and how it works and what are the advantages of this? So we decided to go with the dual fly wheels because again as a Nick said we basically got a lot of inspiration from robot in 30 hours. Though recently we thought of doing a juster outtake. Basically like this mechanism right here would like um be like connected to a"
+    },
+    {
+      "start": 200.16,
+      "text": "server which would go up and down but we realized that it wasn't wouldn't work because the server would be too under too much stress and we scrapped that. Thank you. So um what do you guys find is the most unique part of your robot? I see you guys have a lot of aspects. So what is your unique and most favorite? So, I think one of the most unique parts of our robot is the transfer mechanism, which as I mentioned before, uses the two wheels and the belt to pull the"
+    },
+    {
+      "start": 227.2,
+      "text": "balls up. And we haven't really seen that many other teams doing that, so it's pretty unique. Thank you so much. Okay, so moving on to some of the more software related questions. How did you guys implement driver assist into this season to help your driver in the teleyoperated period? So, we wanted to be be able to both shoot from close and far side. And what a feature that in our programming is we can adjust the speed of our motors that control these wheels. So, to like be able to like switch quickly, we put like"
+    },
+    {
+      "start": 260.08,
+      "text": "some hot keys on a controller which quickly switch from the best power through fall and close. Were there any software changes that you guys made from last season to this season that helped your team progress? Last season we mainly used blocks but this season we switched to Java for more precise um coding and stuff like that. Also we use Java to be more versatile and be able to implement the uh power changes to the motors. And finally from"
+    },
+    {
+      "start": 291.12,
+      "text": "the software perspective I saw that you guys had a six ball auto from both far and close. So could you walk me through some of the steps that you guys went through to get that? To get to six ball auto. Originally we had only three ball auto and even so but we realized like a lot of teams have like six to like nine balls. So we decided to um change up and uh figure out a way to like get all six balls. So the the way it works it starts with"
+    },
+    {
+      "start": 320.4,
+      "text": "three preloaded balls. It would shoot it then it would go and and take the close three balls. It would go back and shoot those again. All right. Thank you. Okay. So on to a fun little question. I noticed you guys have a Pumba on your robot. Um, is there any significance or is there any special reason? So, the main reason we have a Pumba on our robot from Lion King is because last year we had Joffrey the giraffe from the Toys R Us um mascot and because our"
+    },
+    {
+      "start": 348.32,
+      "text": "robot last year was the starter bot from Go Builda and we kind of saw that it like looked like a giraffe and so this year we wanted to continue the uh trend of having animals. So when we looked at our robot, we thought like what does it look like the most? And we realized like this looks like tusks and our gate looks like a tooth. Um, and it kind of reminded us from Pumba. Fun. That's really cool. All right guys, that's a wrap on this episode of Magic"
+    },
+    {
+      "start": 374.4,
+      "text": "Under the Hood. And I hope you guys enjoyed our talk with team 27489 system overload."
+    }
+  ],
+  "showNotes": {
+    "summary": "In this episode of Magic Under the Hood, hosts Arov and Nihal interview Team 27489, System Overload, a second-year FTC team from Ashburn, Virginia. The team shares insights into their robot's design, including their unique intake, belt-and-wheel transfer mechanism, and dual flywheel outtake. They also discuss their transition to Java, their six-ball autonomous routine, and the story behind their mascot, Pumba.",
+    "chapters": [
+      {
+        "time": "0:01",
+        "seconds": 1,
+        "title": "Introduction to System Overload"
+      },
+      {
+        "time": "0:52",
+        "seconds": 52,
+        "title": "The Scoring Process"
+      },
+      {
+        "time": "1:36",
+        "seconds": 96,
+        "title": "Unique Intake Mechanism"
+      },
+      {
+        "time": "2:49",
+        "seconds": 169,
+        "title": "Dual Flywheel Outtake"
+      },
+      {
+        "time": "3:52",
+        "seconds": 232,
+        "title": "Software and Driver Assist"
+      },
+      {
+        "time": "4:51",
+        "seconds": 291,
+        "title": "Six Ball Autonomous"
+      },
+      {
+        "time": "5:33",
+        "seconds": 333,
+        "title": "The Mascot Story"
+      }
+    ],
+    "pullQuotes": [
+      {
+        "time": "0:37",
+        "seconds": 37,
+        "quote": "we actually decided to look at robot in 30 hours."
+      },
+      {
+        "time": "1:50",
+        "seconds": 110,
+        "quote": "we used this red intake flap mechanism because we found that it was better than the surgical tube"
+      },
+      {
+        "time": "2:42",
+        "seconds": 162,
+        "quote": "section from a ballpoint pen to work as our spacer to make sure that they stayed the same."
+      },
+      {
+        "time": "4:33",
+        "seconds": 273,
+        "quote": "Last season we mainly used blocks but this season we switched to Java for more precise um coding and stuff like that."
+      }
+    ],
+    "youtubeChapterBlock": "0:01 Introduction to System Overload\n0:52 The Scoring Process\n1:36 Unique Intake Mechanism\n2:49 Dual Flywheel Outtake\n3:52 Software and Driver Assist\n4:51 Six Ball Autonomous\n5:33 The Mascot Story"
+  },
+  "clips": [
+    {
+      "start": "2:19",
+      "startSeconds": 139,
+      "end": "2:49",
+      "endSeconds": 169,
+      "reason": "The team shares a clever hardware hack using a ballpoint pen section as a spacer to keep their intake gears from slipping.",
+      "caption": "Need a quick spacer fix? 🖊️ This FTC team used a ballpoint pen to keep their intake gears aligned! #FTC #FIRSTrobotics"
+    },
+    {
+      "start": "1:50",
+      "startSeconds": 110,
+      "end": "2:19",
+      "endSeconds": 139,
+      "reason": "The team provides an excellent technical comparison of red intake flaps versus surgical tubing and gecko wheels.",
+      "caption": "Flaps vs. Gecko Wheels vs. Surgical Tubing! 🤖 Why Team 27489 chose pliable red flaps for their intake. #FTC #robotics"
+    },
+    {
+      "start": "5:33",
+      "startSeconds": 333,
+      "end": "6:06",
+      "endSeconds": 366,
+      "reason": "The team shares the fun story behind their Pumba mascot and how their robot's design inspired the animal theme.",
+      "caption": "Meet Pumba! 🐗 How this FTC team turned their robot's 'tusks' and 'teeth' into a fun team mascot tradition. #FTC #FIRSTrobotics"
+    }
+  ],
+  "generatedAt": "2026-07-23T04:51:58.117Z"
+}

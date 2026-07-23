@@ -1,0 +1,381 @@
+{
+  "id": "vDX-ht7H9Fw",
+  "url": "https://www.youtube.com/watch?v=vDX-ht7H9Fw",
+  "title": "FTC DECODE Robot in 30 Hours - Metal Magic 23362",
+  "description": "Team 23362 Metal Magic's 2025-26 DECODE Robot in 30 hours\n\n#ftc #robotin30hours #ri3d  #firstchesapeake",
+  "durationSeconds": 341,
+  "uploadDate": "20250907",
+  "channel": "Metal Magic",
+  "channelUrl": "https://www.youtube.com/channel/UClHJH8_tKVWbrV5nmi84Xmg",
+  "thumbnail": "https://i.ytimg.com/vi/vDX-ht7H9Fw/maxresdefault.jpg",
+  "order": 0,
+  "transcript": {
+    "source": "youtube-captions",
+    "segments": [
+      {
+        "start": 8.56,
+        "text": "Hi guys. Today I'm with team 23362 Mento Magic who's completed the robot in 30 hours challenge. So first let's start"
+      },
+      {
+        "start": 15.92,
+        "text": "off with how you guys um worked your way through your the design process. So, first of course we watched the kickoff"
+      },
+      {
+        "start": 22.16,
+        "text": "like as a team and then we also had and then we like kind of brainstormed on our own and within our sub teams hardware"
+      },
+      {
+        "start": 28.64,
+        "text": "and software about like what are the some of the things that we'll need for this season like software wise and like"
+      },
+      {
+        "start": 33.52,
+        "text": "technology and electronics and hardware and like different types of mechanisms that we could use. And uh um so then for"
+      },
+      {
+        "start": 40.24,
+        "text": "our robot in 30 hours challenge which we focused on heavily instead of like the rest of the season is we kind of decided"
+      },
+      {
+        "start": 46.48,
+        "text": "on having like rollers these gecko wheel rollers as the um intake and output systems. So first we and then we we got"
+      },
+      {
+        "start": 55.52,
+        "text": "to the uh went to the drawing board and kind of uh decided how we want to make this happen with the existing parts we"
+      },
+      {
+        "start": 61.12,
+        "text": "have and then we just got started on building as a team. Okay. So moving on to the chassis. I see"
+      },
+      {
+        "start": 66.16,
+        "text": "from last season to this season, you guys have transitioned from a go builder chassis to a custommade 3D chassis. What"
+      },
+      {
+        "start": 72,
+        "text": "was like the thought process behind that? What are the pros and cons of each one? So, kind of like the uh thought"
+      },
+      {
+        "start": 77.6,
+        "text": "process behind this was that uh the custom chassis offers a bunch of benefits. So, first off, it's much"
+      },
+      {
+        "start": 82.8,
+        "text": "lighter. Um these plates aren't pocketed, but once they're pocketed in metal, it's going to be much lighter"
+      },
+      {
+        "start": 87.76,
+        "text": "than uh the go build a standard chassis that we used to use. Another thing is that um this allows us to bring our"
+      },
+      {
+        "start": 94.56,
+        "text": "motors to the center and mount them down low and that lets us bring the center of gravity uh more close to the center and"
+      },
+      {
+        "start": 101.12,
+        "text": "lower and that will helps with the overall stability of the robot. Okay. So, can you guys walk me through"
+      },
+      {
+        "start": 107.36,
+        "text": "your transfer process all the way from intake to scoring? All right. So, the way that this is"
+      },
+      {
+        "start": 112.08,
+        "text": "going to the way that this works is a ball. It goes in from here and the rollers kind of like pull it in. And"
+      },
+      {
+        "start": 118.96,
+        "text": "then we have a gate here that it serves two purposes. To stop it, and then it also kind of shves it forward like once"
+      },
+      {
+        "start": 125.44,
+        "text": "it's here, it shves it forward into the rollers and launches it. And then, yeah, so that's basically the way that it"
+      },
+      {
+        "start": 132.16,
+        "text": "works. We also have this motor cuz for for right now for 30 hours it's on a 1 to2 gear ratio which allows it to go"
+      },
+      {
+        "start": 139.28,
+        "text": "faster and like roll it up just enough so that it doesn't like fly out and it also and that it also like stays within"
+      },
+      {
+        "start": 146.16,
+        "text": "this area. So obviously you guys have had a pretty strong start in the first 30 hours of the season. So what are some of your"
+      },
+      {
+        "start": 159.2,
+        "text": "future plans going into the season for your first competitions? So one thing we've tal talked about and"
+      },
+      {
+        "start": 165.12,
+        "text": "been brainstorming is like a sorting mechanism. So it's like we get extra points by uh putting the artifacts in a"
+      },
+      {
+        "start": 171.6,
+        "text": "in a specific order based on color purple or green right. So we were thinking about a somewhat of a like a"
+      },
+      {
+        "start": 177.04,
+        "text": "sorting mechanism that once we uh intake a artifact or internally in the robot we can sort it into green or purple and"
+      },
+      {
+        "start": 185.68,
+        "text": "then uh decide which one to uh score when we get over to the scoring area. So one thing that one idea that we thought"
+      },
+      {
+        "start": 193.04,
+        "text": "about is like kind of sorting them onto different side like the two sides of the robot horizontally and then having just"
+      },
+      {
+        "start": 198.48,
+        "text": "one intake and one output for each for both colors. So then we can like quickly choose which one and score that one"
+      },
+      {
+        "start": 205.44,
+        "text": "individually. All right. So from a software perspective, what was your initial reaction seeing the season?"
+      },
+      {
+        "start": 210.32,
+        "text": "So the first thing we noticed is that in the autonomous period, there was some scanning that we needed to do. This time"
+      },
+      {
+        "start": 215.6,
+        "text": "we have to scan the obelisk and see which motif using an April tag. Um so we decided to experiment with limelight and"
+      },
+      {
+        "start": 223.44,
+        "text": "vision. And then one other thing is developing an odometry system to help the robot move around in autonomous. So"
+      },
+      {
+        "start": 230.4,
+        "text": "why don't we talk more about that odometry system? So from the bottom we have two odometry"
+      },
+      {
+        "start": 234.88,
+        "text": "pods. These are swing arm X and Y. Obviously they are spring-loaded. In addition to coding our regular"
+      },
+      {
+        "start": 241.52,
+        "text": "drivetrain movements in the autonomous period our PDO pathing uh gometry system is able to move to a certain coordinate"
+      },
+      {
+        "start": 249.68,
+        "text": "on the field and it's much more accurate than just using coders. So I see you guys also have a limelight"
+      },
+      {
+        "start": 255.84,
+        "text": "here. So what is some of like the vision things that you guys are going to do? like what are you guys going to do with"
+      },
+      {
+        "start": 260.16,
+        "text": "the limelight for like obviously the obelisk and the motifs? Yeah, so with the limelight we're going"
+      },
+      {
+        "start": 265.92,
+        "text": "to use it on the April tags on the obelisk so we can detect the motifs and that will just make it really um useful"
+      },
+      {
+        "start": 273.04,
+        "text": "during our autonomous when so we can score more points and we also want to use it for detecting the artifacts on"
+      },
+      {
+        "start": 279.52,
+        "text": "the field. So are you guys also planning on using any other sensors on your robot? Yeah, so there's actually quite a few"
+      },
+      {
+        "start": 286.24,
+        "text": "sensors that we're looking to use. First one is a distance or a motion sensor to kind of automate this gate closing and"
+      },
+      {
+        "start": 292.8,
+        "text": "the pushing. And then one more thing we want to use is a color sensor, but the limelight sort of already does that for"
+      },
+      {
+        "start": 298.8,
+        "text": "us. But maybe for a sorting mechanism or shooting the correct color, we might want to use a additional color sensor."
+      },
+      {
+        "start": 305.28,
+        "text": "All right. So from a software perspective, are there any future plans that you guys have? Anything you want to"
+      },
+      {
+        "start": 309.52,
+        "text": "improve going to the season for the first few competitions and maybe even possibly your regional competition? We"
+      },
+      {
+        "start": 314.48,
+        "text": "want to make this sort of pivot so we can control what angle and then also what speed. So we're going to make some"
+      },
+      {
+        "start": 319.84,
+        "text": "formulas to do that as well. So what is one piece of advice you guys have for teams going into this season?"
+      },
+      {
+        "start": 324.56,
+        "text": "So I think the most important advice I have for teams this season is just rapid prototyping is very important. You guys"
+      },
+      {
+        "start": 330,
+        "text": "should need to like program get your robot built uh test test and just like get something out there and get that"
+      },
+      {
+        "start": 335.84,
+        "text": "robot built. Thank you guys. This is team 23362 metal magic's robot in 30 hours"
+      }
+    ]
+  },
+  "paragraphs": [
+    {
+      "start": 8.56,
+      "text": "Hi guys. Today I'm with team 23362 Mento Magic who's completed the robot in 30 hours challenge. So first let's start off with how you guys um worked your way through your the design process. So, first of course we watched the kickoff like as a team and then we also had and then we like kind of brainstormed on our own and within our sub teams hardware and software about like what are the some of the things that we'll need for this season like software wise and like"
+    },
+    {
+      "start": 33.52,
+      "text": "technology and electronics and hardware and like different types of mechanisms that we could use. And uh um so then for our robot in 30 hours challenge which we focused on heavily instead of like the rest of the season is we kind of decided on having like rollers these gecko wheel rollers as the um intake and output systems. So first we and then we we got to the uh went to the drawing board and kind of uh decided how we want to make this happen with the existing parts we"
+    },
+    {
+      "start": 61.12,
+      "text": "have and then we just got started on building as a team. Okay. So moving on to the chassis. I see from last season to this season, you guys have transitioned from a go builder chassis to a custommade 3D chassis. What was like the thought process behind that? What are the pros and cons of each one? So, kind of like the uh thought process behind this was that uh the custom chassis offers a bunch of benefits. So, first off, it's much"
+    },
+    {
+      "start": 82.8,
+      "text": "lighter. Um these plates aren't pocketed, but once they're pocketed in metal, it's going to be much lighter than uh the go build a standard chassis that we used to use. Another thing is that um this allows us to bring our motors to the center and mount them down low and that lets us bring the center of gravity uh more close to the center and lower and that will helps with the overall stability of the robot. Okay. So, can you guys walk me through"
+    },
+    {
+      "start": 107.36,
+      "text": "your transfer process all the way from intake to scoring? All right. So, the way that this is going to the way that this works is a ball. It goes in from here and the rollers kind of like pull it in. And then we have a gate here that it serves two purposes. To stop it, and then it also kind of shves it forward like once it's here, it shves it forward into the rollers and launches it. And then, yeah, so that's basically the way that it"
+    },
+    {
+      "start": 132.16,
+      "text": "works. We also have this motor cuz for for right now for 30 hours it's on a 1 to2 gear ratio which allows it to go faster and like roll it up just enough so that it doesn't like fly out and it also and that it also like stays within this area. So obviously you guys have had a pretty strong start in the first 30 hours of the season. So what are some of your future plans going into the season for your first competitions? So one thing we've tal talked about and"
+    },
+    {
+      "start": 165.12,
+      "text": "been brainstorming is like a sorting mechanism. So it's like we get extra points by uh putting the artifacts in a in a specific order based on color purple or green right. So we were thinking about a somewhat of a like a sorting mechanism that once we uh intake a artifact or internally in the robot we can sort it into green or purple and then uh decide which one to uh score when we get over to the scoring area. So one thing that one idea that we thought"
+    },
+    {
+      "start": 193.04,
+      "text": "about is like kind of sorting them onto different side like the two sides of the robot horizontally and then having just one intake and one output for each for both colors. So then we can like quickly choose which one and score that one individually. All right. So from a software perspective, what was your initial reaction seeing the season? So the first thing we noticed is that in the autonomous period, there was some scanning that we needed to do. This time"
+    },
+    {
+      "start": 215.6,
+      "text": "we have to scan the obelisk and see which motif using an April tag. Um so we decided to experiment with limelight and vision. And then one other thing is developing an odometry system to help the robot move around in autonomous. So why don't we talk more about that odometry system? So from the bottom we have two odometry pods. These are swing arm X and Y. Obviously they are spring-loaded. In addition to coding our regular drivetrain movements in the autonomous period our PDO pathing uh gometry system is able to move to a certain coordinate"
+    },
+    {
+      "start": 249.68,
+      "text": "on the field and it's much more accurate than just using coders. So I see you guys also have a limelight here. So what is some of like the vision things that you guys are going to do? like what are you guys going to do with the limelight for like obviously the obelisk and the motifs? Yeah, so with the limelight we're going to use it on the April tags on the obelisk so we can detect the motifs and that will just make it really um useful"
+    },
+    {
+      "start": 273.04,
+      "text": "during our autonomous when so we can score more points and we also want to use it for detecting the artifacts on the field. So are you guys also planning on using any other sensors on your robot? Yeah, so there's actually quite a few sensors that we're looking to use. First one is a distance or a motion sensor to kind of automate this gate closing and the pushing. And then one more thing we want to use is a color sensor, but the limelight sort of already does that for"
+    },
+    {
+      "start": 298.8,
+      "text": "us. But maybe for a sorting mechanism or shooting the correct color, we might want to use a additional color sensor. All right. So from a software perspective, are there any future plans that you guys have? Anything you want to improve going to the season for the first few competitions and maybe even possibly your regional competition? We want to make this sort of pivot so we can control what angle and then also what speed. So we're going to make some"
+    },
+    {
+      "start": 319.84,
+      "text": "formulas to do that as well. So what is one piece of advice you guys have for teams going into this season? So I think the most important advice I have for teams this season is just rapid prototyping is very important. You guys should need to like program get your robot built uh test test and just like get something out there and get that robot built. Thank you guys. This is team 23362 metal magic's robot in 30 hours"
+    }
+  ],
+  "showNotes": {
+    "summary": "This episode features an interview with FTC team 23362 Metal Magic about their experience completing the Robot in 30 Hours challenge. The team discusses transitioning to a custom 3D-printed chassis, their roller-based intake and transfer system, and their future plans for a color-sorting mechanism. They also share insights into their software setup, including Limelight vision tracking, odometry, and the importance of rapid prototyping.",
+    "chapters": [
+      {
+        "time": "0:08",
+        "seconds": 8,
+        "title": "Design Process and Kickoff Brainstorming"
+      },
+      {
+        "time": "1:06",
+        "seconds": 66,
+        "title": "Transitioning to a Custom Chassis"
+      },
+      {
+        "time": "1:47",
+        "seconds": 107,
+        "title": "Intake and Transfer Mechanics"
+      },
+      {
+        "time": "2:39",
+        "seconds": 159,
+        "title": "Future Sorting Mechanism Concepts"
+      },
+      {
+        "time": "3:25",
+        "seconds": 205,
+        "title": "Autonomous Coding and Odometry"
+      },
+      {
+        "time": "4:15",
+        "seconds": 255,
+        "title": "Limelight Vision and Sensors"
+      },
+      {
+        "time": "5:24",
+        "seconds": 324,
+        "title": "Advice for Rapid Prototyping"
+      }
+    ],
+    "pullQuotes": [
+      {
+        "time": "1:17",
+        "seconds": 77,
+        "quote": "the custom chassis offers a bunch of benefits."
+      },
+      {
+        "time": "1:34",
+        "seconds": 94,
+        "quote": "motors to the center and mount them down low and that lets us bring the center of gravity uh more close to the center"
+      },
+      {
+        "time": "2:45",
+        "seconds": 165,
+        "quote": "been brainstorming is like a sorting mechanism."
+      },
+      {
+        "time": "4:09",
+        "seconds": 249,
+        "quote": "gometry system is able to move to a certain coordinate on the field and it's much more accurate than just using coders."
+      }
+    ],
+    "youtubeChapterBlock": "0:08 Design Process and Kickoff Brainstorming\n1:06 Transitioning to a Custom Chassis\n1:47 Intake and Transfer Mechanics\n2:39 Future Sorting Mechanism Concepts\n3:25 Autonomous Coding and Odometry\n4:15 Limelight Vision and Sensors\n5:24 Advice for Rapid Prototyping"
+  },
+  "clips": [
+    {
+      "start": "1:06",
+      "startSeconds": 66,
+      "end": "1:47",
+      "endSeconds": 107,
+      "reason": "The team explains the major engineering benefits of switching from a standard GoBilda chassis to a custom 3D-printed chassis.",
+      "caption": "Why switch to a custom 3D-printed chassis? Team 23362 explains the benefits of weight and center of gravity! 🤖 #FTC #FIRSTrobotics"
+    },
+    {
+      "start": "1:47",
+      "startSeconds": 107,
+      "end": "2:26",
+      "endSeconds": 146,
+      "reason": "A clear walkthrough of their 30-hour intake and transfer mechanism using gecko wheels and a dual-purpose gate.",
+      "caption": "Check out this 30-hour intake & transfer system! Gecko wheels and a dual-purpose gate make it happen. ⚙️ #FTC #robotics"
+    },
+    {
+      "start": "3:50",
+      "startSeconds": 230,
+      "end": "4:33",
+      "endSeconds": 273,
+      "reason": "The team dives into their custom spring-loaded odometry pods and how they use Limelight for accurate autonomous pathing.",
+      "caption": "How Team 23362 uses spring-loaded odometry pods and Limelight for precise autonomous pathing! 🎯 #FTC #stem"
+    },
+    {
+      "start": "4:46",
+      "startSeconds": 286,
+      "end": "5:35",
+      "endSeconds": 335,
+      "reason": "The team shares their sensor plans and their number one piece of advice for the season: rapid prototyping.",
+      "caption": "The best advice for this FTC season? Rapid prototyping! Get your robot built, test it, and keep iterating. 🛠️ #FTC #robotics"
+    }
+  ],
+  "generatedAt": "2026-07-23T04:50:15.289Z"
+}

@@ -1,0 +1,8 @@
+{
+  "_comment": "THE ONE FILE YOU EDIT TO ADD EPISODES. Add an object with the YouTube video id (the part after watch?v=) and optional overrides, then run `npm run regenerate`. Everything else regenerates automatically.",
+  "episodes": [
+    { "id": "vDX-ht7H9Fw" },
+    { "id": "EK5vX8DDwtE" },
+    { "id": "addp3fU6f_4" }
+  ]
+}

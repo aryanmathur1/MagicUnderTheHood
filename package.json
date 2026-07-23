@@ -1,0 +1,19 @@
+{
+  "name": "magic-under-the-hood",
+  "version": "1.0.0",
+  "description": "Magic Under the Hood — Searchable Podcast Archive for Metal Magic FTC Team #23362",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "regenerate": "node --env-file-if-exists=.env scripts/regenerate.js"
+  },
+  "dependencies": {
+    "astro": "^4.16.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
