@@ -92,6 +92,15 @@ copy-paste chapter block for the YouTube description), picks **shareable clips**
 rebuilds the **search index**. Results are saved as JSON in `src/data/` and
 `api/embeddings.json` — commit those files.
 
+### Transcript translations
+
+Each transcript is pre-translated at build time into the languages listed in
+`config/site.js` (`languages`). On an episode page, a 🌐 **Language** dropdown swaps the
+transcript instantly — no runtime AI call, it's all static. You can also deep-link a
+translated view, e.g. `/episodes/vDX-ht7H9Fw/?lang=es`. Add or remove languages in
+`config/site.js` and re-run `npm run regenerate`; translations are cached and only redone
+when the transcript changes (or with `--force`).
+
 ### Handy variations
 
 ```bash

@@ -30,11 +30,30 @@ export const models = {
   // either wait a day or set this to 'gemini-flash-lite-latest' too.
   enrich: 'gemini-3.5-flash',
 
+  // Build-time transcript translation. High volume (episodes × languages), so
+  // it uses the high-quota Flash-Lite tier.
+  translate: 'gemini-flash-lite-latest',
+
   // Turns text into vectors for semantic search. 768-dim by default here.
   // (Embeddings have a very generous free tier.)
   embedding: 'gemini-embedding-001',
   embeddingDim: 768,
 };
+
+// Languages the transcript is pre-translated into at build time. English is the
+// original and always available. Add or remove entries here, then re-run
+// `npm run regenerate` — translations are cached and only (re)generated when the
+// transcript changes or you pass --force. `dir: 'rtl'` renders right-to-left.
+export const languages = [
+  { code: 'es', label: 'Español', name: 'Spanish' },
+  { code: 'fr', label: 'Français', name: 'French' },
+  { code: 'de', label: 'Deutsch', name: 'German' },
+  { code: 'pt', label: 'Português', name: 'Portuguese' },
+  { code: 'zh', label: '中文 (简体)', name: 'Simplified Chinese' },
+  { code: 'hi', label: 'हिन्दी', name: 'Hindi' },
+  { code: 'vi', label: 'Tiếng Việt', name: 'Vietnamese' },
+  { code: 'ar', label: 'العربية', name: 'Arabic', dir: 'rtl' },
+];
 // To see which models your key can use, run:
 //   node --env-file=.env -e 'fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${process.env.GEMINI_API_KEY}`).then(r=>r.json()).then(d=>console.log(d.models.map(m=>m.name).join("\n")))'
 

@@ -26,6 +26,8 @@ import { fetchMetadata, fetchCaptionsJson3, downloadAudio } from './lib/ytdlp.js
 import { parseJson3 } from './lib/captions.js';
 import { chunkSegments, paragraphs } from './lib/chunk.js';
 import { makeShowNotes, makeClips } from './lib/enrich.js';
+import { translateParagraphs } from './lib/translate.js';
+import { languages } from '../config/site.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -107,13 +109,16 @@ async function buildEpisode(ep, index) {
   }
 
   const segments = transcript.segments || [];
+  const para = paragraphs(segments);
   const record = {
     ...meta,
     order: index,
     transcript,
-    paragraphs: paragraphs(segments),
+    paragraphs: para,
     showNotes: prev.showNotes || null,
     clips: prev.clips || null,
+    translations: prev.translations || null,
+    languages: languages.map((l) => ({ code: l.code, label: l.label, dir: l.dir || 'ltr' })),
     generatedAt: new Date().toISOString(),
   };
 
@@ -125,6 +130,23 @@ async function buildEpisode(ep, index) {
     record.clips = await makeClips(meta, segments);
   } else if (segments.length && !hasKey) {
     log('⚠︎ GEMINI_API_KEY not set — show notes & clips skipped.');
+  }
+
+  // --- Stage 5: translations (need key) ---
+  // Reuse cached translations only if they still line up with the current
+  // paragraphs (paragraph splitting may have changed); otherwise regenerate.
+  const cached = prev.translations;
+  const aligned =
+    cached &&
+    Object.values(cached).every((arr) => Array.isArray(arr) && arr.length === para.length) &&
+    languages.every((l) => cached[l.code]); // every configured language present
+  if (para.length && hasKey && (force || !aligned)) {
+    log(`translating transcript into ${languages.length} languages…`);
+    record.translations = await translateParagraphs(para, (m) => log('   ' + m));
+  } else if (para.length && !hasKey) {
+    log('⚠︎ GEMINI_API_KEY not set — translations skipped.');
+  } else if (aligned) {
+    log('translations: reusing cached');
   }
 
   await mkdir(DATA_DIR, { recursive: true });

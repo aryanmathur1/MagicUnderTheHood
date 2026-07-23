@@ -36,22 +36,64 @@ export function chunkSegments(segments) {
 
 /**
  * Group timed segments into readable paragraphs for the on-page transcript.
- * Each paragraph links to its start time on YouTube.
+ * Paragraph boundaries always fall on SENTENCE boundaries (never mid-sentence),
+ * and each paragraph links to the start time of its first sentence on YouTube.
  */
-export function paragraphs(segments, targetWords = 80) {
+export function paragraphs(segments, targetWords = 65) {
+  const sentences = toSentences(segments);
   const out = [];
   let buf = null;
-  for (const seg of segments) {
-    if (!buf) buf = { start: seg.start, text: seg.text };
-    else if (countWords(buf.text) < targetWords)
-      buf.text = `${buf.text} ${seg.text}`.replace(/\s+/g, ' ').trim();
-    else {
+  let words = 0;
+  for (const s of sentences) {
+    if (!buf) {
+      buf = { start: s.start, text: s.text };
+      words = countWords(s.text);
+    } else if (words < targetWords) {
+      buf.text = `${buf.text} ${s.text}`.replace(/\s+/g, ' ').trim();
+      words += countWords(s.text);
+    } else {
       out.push(buf);
-      buf = { start: seg.start, text: seg.text };
+      buf = { start: s.start, text: s.text };
+      words = countWords(s.text);
     }
   }
   if (buf) out.push(buf);
   return out;
+}
+
+/**
+ * Re-cut timed caption segments into whole sentences. Each sentence keeps the
+ * start time of the caption segment where it begins, so links stay accurate even
+ * though sentences cross the original caption-line boundaries.
+ */
+export function toSentences(segments) {
+  // Build one continuous string, remembering where each segment starts so we can
+  // map a sentence's character offset back to a timestamp.
+  let combined = '';
+  const marks = []; // { offset, start }
+  segments.forEach((seg, i) => {
+    if (i > 0) combined += ' ';
+    marks.push({ offset: combined.length, start: seg.start });
+    combined += seg.text;
+  });
+
+  // Split after sentence-ending punctuation followed by whitespace.
+  const parts = combined.split(/(?<=[.?!])\s+/);
+  const sentences = [];
+  let cursor = 0;
+  for (const part of parts) {
+    const text = part.trim();
+    if (!text) continue;
+    const offset = combined.indexOf(part, cursor);
+    cursor = offset + part.length;
+    let start = marks[0]?.start ?? 0;
+    for (const mk of marks) {
+      if (mk.offset <= offset) start = mk.start;
+      else break;
+    }
+    sentences.push({ start: round(start), text });
+  }
+  return sentences;
 }
 
 function countWords(s) {

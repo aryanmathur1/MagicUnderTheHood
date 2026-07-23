@@ -17,18 +17,29 @@ function key() {
   return k;
 }
 
-async function post(path, body, { retries = 3 } = {}) {
+async function post(path, body, { retries = 4 } = {}) {
   const url = `${API_ROOT}/${path}?key=${key()}`;
   let lastErr;
   for (let attempt = 0; attempt <= retries; attempt++) {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+    let res;
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+    } catch (netErr) {
+      // Transient network hiccup (ECONNRESET, fetch failed) — back off and retry.
+      if (attempt < retries) {
+        await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)));
+        lastErr = netErr;
+        continue;
+      }
+      throw netErr;
+    }
     if (res.ok) return res.json();
     const text = await res.text();
-    // 429 (rate limit) / 503 (overloaded) — back off and retry.
+    // 429 (rate limit) / 5xx (overloaded) — back off and retry.
     if ((res.status === 429 || res.status >= 500) && attempt < retries) {
       const waitMs = 2000 * (attempt + 1);
       await new Promise((r) => setTimeout(r, waitMs));
@@ -44,11 +55,12 @@ async function post(path, body, { retries = 3 } = {}) {
  * Generate text. Returns a plain string. When `json` is true we ask Gemini for
  * a JSON response and parse it.
  */
-export async function generate(prompt, { system, json = false, temperature = 0.3 } = {}) {
+export async function generate(prompt, { system, json = false, temperature = 0.3, model = models.enrich, maxOutputTokens = 8192 } = {}) {
   const body = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     generationConfig: {
       temperature,
+      maxOutputTokens,
       ...(json ? { responseMimeType: 'application/json' } : {}),
     },
   };
@@ -60,7 +72,7 @@ export async function generate(prompt, { system, json = false, temperature = 0.3
   const attempts = json ? 3 : 1;
   let lastErr;
   for (let i = 0; i < attempts; i++) {
-    const data = await post(`models/${models.enrich}:generateContent`, body);
+    const data = await post(`models/${model}:generateContent`, body);
     const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text).join('') ?? '';
     if (!json) return text;
     try {

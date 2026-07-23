@@ -17,6 +17,9 @@ const team = teamFromTitle(ep.title);
 const notes = ep.showNotes;
 const clips = ep.clips || [];
 const paragraphs = ep.paragraphs || [];
+const translations = ep.translations || {};
+const langs = (ep.languages || []).filter((l) => Array.isArray(translations[l.code]));
+const hasTranslations = langs.length > 0;
 const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
 ---
 
@@ -75,17 +78,35 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
           }
 
           <section class="block" aria-labelledby="transcript-h">
-            <h2 id="transcript-h">Full transcript</h2>
+            <div class="transcript-head">
+              <h2 id="transcript-h">Full transcript</h2>
+              {
+                hasTranslations && (
+                  <div class="lang-picker">
+                    <label for="lang-select">
+                      <span aria-hidden="true">🌐</span>
+                      <span class="visually-hidden">Translate transcript</span> Language
+                    </label>
+                    <select id="lang-select">
+                      <option value="en" selected>English (original)</option>
+                      {langs.map((l) => (
+                        <option value={l.code}>{l.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                )
+              }
+            </div>
             {
               paragraphs.length ? (
                 <Fragment>
-                <p class="transcript-note">
+                <p class="transcript-note" id="transcript-note">
                   Auto-generated from the episode captions. Click any timestamp to jump to that
                   moment.
                 </p>
-                <div class="transcript">
-                  {paragraphs.map((p) => (
-                    <p class="tp">
+                <div class="transcript" id="transcript" lang="en" dir="ltr" aria-live="polite">
+                  {paragraphs.map((p, i) => (
+                    <p class="tp" data-i={i}>
                       <a
                         class="ts"
                         href={youtubeAt(ep.id, p.start)}
@@ -94,10 +115,16 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
                       >
                         {formatTimestamp(p.start)}
                       </a>
-                      <span>{p.text}</span>
+                      <span class="tp-text" data-original={p.text}>{p.text}</span>
                     </p>
                   ))}
                 </div>
+                {hasTranslations && (
+                  <Fragment>
+                    <script type="application/json" id="translations-data" set:html={JSON.stringify(translations)} />
+                    <script type="application/json" id="lang-dirs" set:html={JSON.stringify(Object.fromEntries(langs.map((l) => [l.code, l.dir || 'ltr'])))} />
+                  </Fragment>
+                )}
                 </Fragment>
               ) : (
                 <p class="muted">
@@ -229,7 +256,39 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
       line-height: 1.45;
     }
     .quote figcaption { margin: 0; }
-    .transcript-note { color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem; }
+    .transcript-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .transcript-head h2 { margin-bottom: 0; }
+    .lang-picker {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+    .lang-picker label { font-family: var(--font-head); font-weight: 500; }
+    .lang-picker select {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .lang-picker select:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 1px;
+      border-color: var(--purple);
+    }
+    .transcript-note { color: var(--gray); font-size: 0.9rem; margin: 0.75rem 0 1rem; }
+    .transcript[dir='rtl'] .tp { grid-template-columns: 1fr auto; text-align: right; }
     .transcript { display: flex; flex-direction: column; gap: 0.35rem; }
     .tp {
       display: grid;
@@ -315,6 +374,47 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
         player.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
+
+    // Transcript translation: swap paragraph text in place. All translations are
+    // pre-built at build time and embedded as JSON, so this is instant and needs
+    // no network call. Timestamps and links are untouched.
+    const langSelect = document.getElementById('lang-select');
+    if (langSelect) {
+      const dataEl = document.getElementById('translations-data');
+      const dirEl = document.getElementById('lang-dirs');
+      const translations = dataEl ? JSON.parse(dataEl.textContent) : {};
+      const dirs = dirEl ? JSON.parse(dirEl.textContent) : {};
+      const container = document.getElementById('transcript');
+      const note = document.getElementById('transcript-note');
+      const spans = Array.from(document.querySelectorAll('.tp-text'));
+      const applyLang = (code) => {
+        const rows = translations[code];
+        spans.forEach((span) => {
+          const i = Number(span.closest('.tp').getAttribute('data-i'));
+          if (code === 'en' || !rows || rows[i] == null) {
+            span.textContent = span.getAttribute('data-original');
+          } else {
+            span.textContent = rows[i];
+          }
+        });
+        container.setAttribute('lang', code);
+        container.setAttribute('dir', code === 'en' ? 'ltr' : dirs[code] || 'ltr');
+        if (note) {
+          note.textContent =
+            code === 'en'
+              ? 'Auto-generated from the episode captions. Click any timestamp to jump to that moment.'
+              : 'Machine-translated from the English captions. Click any timestamp to jump to that moment.';
+        }
+      };
+      langSelect.addEventListener('change', () => applyLang(langSelect.value));
+      // Optional deep link: /episodes/ID/?lang=es opens already translated and
+      // makes a translated view shareable.
+      const wanted = new URLSearchParams(location.search).get('lang');
+      if (wanted && (wanted === 'en' || translations[wanted])) {
+        langSelect.value = wanted;
+        applyLang(wanted);
+      }
+    }
 
     // Copy-to-clipboard buttons (chapter block, clip captions).
     document.querySelectorAll('.copy-btn').forEach((btn) => {
