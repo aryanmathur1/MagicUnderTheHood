@@ -35,6 +35,24 @@ export function chunkSegments(segments) {
 }
 
 /**
+ * Chunk a plain block of text (e.g. a team web page) into overlapping windows
+ * for embedding. No timestamps — these chunks link to the page itself.
+ * @returns {{text:string}[]}
+ */
+export function chunkText(text) {
+  const words = text.split(/\s+/).filter(Boolean);
+  const size = rag.chunkWords;
+  const step = Math.max(1, size - rag.chunkOverlapWords);
+  const chunks = [];
+  for (let i = 0; i < words.length; i += step) {
+    const slice = words.slice(i, i + size).join(' ').trim();
+    if (slice) chunks.push({ text: slice });
+    if (i + size >= words.length) break;
+  }
+  return chunks;
+}
+
+/**
  * Group timed segments into readable paragraphs for the on-page transcript.
  * Paragraph boundaries always fall on SENTENCE boundaries (never mid-sentence),
  * and each paragraph links to the start time of its first sentence on YouTube.

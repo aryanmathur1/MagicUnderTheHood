@@ -10,14 +10,26 @@ import { site } from '../../config/site.js';
       <h1>Making our podcast findable</h1>
       <p class="lede">
         {site.team} runs the first FTC interview podcast in the Chesapeake region. We sit down
-        with other teams and pull out the real, practical advice — how they designed a
-        mechanism, how they organized their season, what they’d do differently. Great stuff,
+        with other teams and pull out the real, practical advice: how they designed a
+        mechanism, how they organized their season, and what they’d do differently. Great stuff,
         but it was trapped inside videos. This site sets it free.
       </p>
 
+      <figure class="team-photo">
+        <img
+          src="/team.jpg"
+          alt="The Metal Magic FTC #23362 team standing with their competition robot and two trophies in their workshop"
+          width="1000"
+          height="694"
+          loading="lazy"
+          onerror="this.closest('.team-photo').style.display='none'"
+        />
+        <figcaption>{site.team} with our robot and hardware.</figcaption>
+      </figure>
+
       <h2>What this site does</h2>
       <ul class="prose-list">
-        <li><strong>Full transcripts</strong> for every episode, so the advice is readable and searchable — good for accessibility and for search engines.</li>
+        <li><strong>Full transcripts</strong> for every episode, so the advice is readable and searchable, which is good for accessibility and for search engines.</li>
         <li><strong>Ask the Podcast</strong>: type a question in plain English and get an answer stitched together from what teams actually said, with links to the exact moment.</li>
         <li><strong>Show notes</strong>: a summary, chapter markers, and pull quotes for each episode.</li>
         <li><strong>Clip finder</strong>: the most shareable moments, ready for Reels and Shorts.</li>
@@ -27,15 +39,15 @@ import { site } from '../../config/site.js';
       <p>We care a lot about not putting words in anyone’s mouth. So we built in guardrails:</p>
       <ul class="prose-list">
         <li><strong>Answers come only from the transcripts.</strong> If the archive doesn’t cover your question, the site says so plainly instead of guessing.</li>
-        <li><strong>Every answer shows its sources</strong> — the episode name and a timestamp link — so you can watch it yourself and verify.</li>
+        <li><strong>Every answer shows its sources</strong> (the episode name and a timestamp link) so you can watch it yourself and verify.</li>
         <li><strong>We quote or clearly paraphrase.</strong> We never invent a quote or attribute something a guest didn’t say.</li>
         <li><strong>It’s written for students.</strong> The whole archive is kept appropriate for a school audience.</li>
       </ul>
 
       <h2>How it’s built</h2>
       <p>
-        All the heavy lifting — transcription, summaries, chapter markers, clip picks, and the
-        search index — happens ahead of time in an offline script and is saved as plain files.
+        All the heavy lifting (transcription, summaries, chapter markers, clip picks, and the
+        search index) happens ahead of time in an offline script and is saved as plain files.
         That keeps the live site fast and inexpensive to run. The only thing that happens live
         is answering your question, and that request goes through a small secure service so our
         API key is never exposed. If you’re curious about the details, our team documented the
@@ -54,6 +66,24 @@ import { site } from '../../config/site.js';
 
   <style>
     .narrow { max-width: 760px; }
+    .team-photo {
+      margin: 2rem 0 0;
+    }
+    .team-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+      border: 1px solid var(--purple-100);
+      box-shadow: var(--shadow-lg);
+    }
+    .team-photo figcaption {
+      margin-top: 0.7rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gray);
+      font-family: var(--font-head);
+    }
     h2 { margin-top: 2.5rem; }
     .prose-list { padding-left: 1.2rem; color: var(--ink-soft); }
     .prose-list li { margin-bottom: 0.6rem; }

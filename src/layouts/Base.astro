@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { site } from '../../config/site.js';
 
 const { title, description, path = '' } = Astro.props;
-const fullTitle = title ? `${title} · ${site.name}` : `${site.name} — ${site.tagline}`;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tagline}`;
 const desc =
   description ||
   `A searchable archive of the ${site.team} interview podcast. Full transcripts, semantic search, and show notes for every episode.`;
@@ -28,6 +28,8 @@ const current = Astro.url.pathname;
     <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#5E2C9E" />
+    <link rel="icon" href="/team-logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/team-logo.svg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -41,7 +43,7 @@ const current = Astro.url.pathname;
     <header class="site-header">
       <div class="container">
         <a class="brand" href="/">
-          <span class="logo" aria-hidden="true">M</span>
+          <img class="logo" src="/team-logo.svg" alt="" width="38" height="38" />
           <span>
             {site.name}
             <small>{site.tagline}</small>
@@ -73,7 +75,8 @@ const current = Astro.url.pathname;
     <footer class="site-footer">
       <div class="container">
         <p>
-          <strong>{site.name}</strong> — {site.tagline}. Built by {site.team}, {site.location}.
+          <strong>{site.name}</strong> is the searchable archive of the {site.team} interview
+          podcast, built by the team in {site.location}.
         </p>
         <p>
           Every answer and quote on this site comes from our own podcast transcripts.

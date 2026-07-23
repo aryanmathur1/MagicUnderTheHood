@@ -1,13 +1,14 @@
 /* ===========================================================================
-   Design system — matches metalmagicftc.org
+   Design system, matches metalmagicftc.org
    Purple #5E2C9E · Gray #8C8C8C · white background
    Poppins (headings) · Inter (body) · JetBrains Mono (timestamps/code)
-   Clean, roomy, rounded cards, subtle borders — not a chatbot look.
+   Clean, roomy, rounded cards, subtle borders, not a chatbot look.
    =========================================================================== */
 
 :root {
   --purple: #5e2c9e;
   --purple-700: #4a2280;
+  --purple-400: #8b5cd6;
   --purple-100: #efe9f8;
   --purple-050: #f7f4fc;
   --gray: #8c8c8c;
@@ -19,10 +20,13 @@
   --white: #ffffff;
   --focus: #2f6bff;
 
+  --grad: linear-gradient(120deg, #5e2c9e 0%, #7b3fd0 55%, #9d5cf0 100%);
+
   --radius: 16px;
   --radius-lg: 24px;
-  --shadow-sm: 0 1px 2px rgba(28, 24, 48, 0.05);
-  --shadow: 0 6px 24px rgba(94, 44, 158, 0.08);
+  --shadow-sm: 0 1px 2px rgba(28, 24, 48, 0.04), 0 1px 1px rgba(28, 24, 48, 0.03);
+  --shadow: 0 10px 30px -8px rgba(94, 44, 158, 0.16), 0 4px 10px -4px rgba(28, 24, 48, 0.06);
+  --shadow-lg: 0 24px 60px -18px rgba(94, 44, 158, 0.28), 0 8px 20px -8px rgba(28, 24, 48, 0.08);
   --maxw: 1080px;
 
   --font-head: 'Poppins', system-ui, sans-serif;
@@ -57,6 +61,14 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Gradient text accent, used on hero keywords and section eyebrows. */
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 h1,
@@ -163,15 +175,13 @@ a:hover {
   font-size: 1.05rem;
 }
 .brand .logo {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, var(--purple), #8b5cd6);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-weight: 700;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   flex: none;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 4px 12px -3px rgba(94, 44, 158, 0.5);
 }
 .brand small {
   display: block;
@@ -219,6 +229,7 @@ a:hover {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.22s ease, transform 0.12s ease, border-color 0.22s ease;
 }
 
 /* --- Buttons --- */
@@ -240,12 +251,16 @@ a:hover {
   transform: translateY(1px);
 }
 .btn-primary {
-  background: var(--purple);
+  background: var(--grad);
+  background-size: 140% 140%;
   color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(94, 44, 158, 0.55);
+  transition: transform 0.08s ease, box-shadow 0.2s ease, background-position 0.4s ease;
 }
 .btn-primary:hover {
-  background: var(--purple-700);
   color: #fff;
+  background-position: 100% 50%;
+  box-shadow: 0 12px 26px -8px rgba(94, 44, 158, 0.6);
 }
 .btn-ghost {
   background: var(--white);
@@ -255,6 +270,7 @@ a:hover {
 .btn-ghost:hover {
   background: var(--purple-050);
   color: var(--purple);
+  border-color: var(--purple-100);
 }
 
 /* --- Chips / pills --- */
@@ -293,13 +309,23 @@ a.ts:hover {
   padding-block: clamp(2.5rem, 6vw, 4.5rem);
 }
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: var(--font-head);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--purple);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--grad);
 }
 .lede {
   font-size: 1.15rem;
@@ -321,5 +347,33 @@ a.ts:hover {
   }
   .brand small {
     display: none;
+  }
+}
+
+/* Gentle entrance for hero content. Disabled for reduced-motion users. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.reveal {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.reveal-2 {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s both;
+}
+.reveal-3 {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.16s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-2,
+  .reveal-3 {
+    animation: none;
   }
 }

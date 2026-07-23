@@ -84,7 +84,7 @@ function formatTimestamp(total) {
 }
 
 const SYSTEM = `You are the search assistant for "${site.name}", the interview podcast by ${site.team}.
-You answer ONLY using the numbered transcript excerpts provided by the user. Follow these rules strictly:
+You answer ONLY using the numbered excerpts provided by the user (these come from our podcast transcripts and from ${site.team}'s own website). Follow these rules strictly:
 - If the excerpts do not contain enough information to answer, say so plainly (e.g. "The archive doesn't cover that yet.") and do not guess or use outside knowledge.
 - Never invent quotes, names, team numbers, or facts. When you quote a guest, copy their words exactly from the excerpts; otherwise paraphrase and make clear it is a paraphrase.
 - Keep the answer concise (2-5 sentences), friendly, and appropriate for a middle/high-school student audience.
@@ -174,8 +174,11 @@ export default async function handler(req, res) {
     // 3) Build numbered context for the model.
     const context = top
       .map((t, i) => {
-        const title = TITLES[t.c.episodeId] || t.c.episodeId;
-        return `[${i + 1}] (${title} @ ${formatTimestamp(t.c.start)})\n${t.c.text}`;
+        const where =
+          t.c.type === 'page'
+            ? `${t.c.title} — team website`
+            : `${TITLES[t.c.episodeId] || t.c.episodeId} @ ${formatTimestamp(t.c.start)}`;
+        return `[${i + 1}] (${where})\n${t.c.text}`;
       })
       .join('\n\n');
 
@@ -210,18 +213,34 @@ Answer the question using ONLY these excerpts. Respond as JSON:
     for (const n of usedNums) {
       const t = top[n - 1];
       if (!t) continue;
-      const secs = Math.floor(t.c.start);
-      const dedupeKey = `${t.c.episodeId}:${secs}`;
-      if (seen.has(dedupeKey)) continue;
-      seen.add(dedupeKey);
       const quote = quoteByN.get(n);
-      sources.push({
-        episode: TITLES[t.c.episodeId] || t.c.episodeId,
-        timestamp: formatTimestamp(t.c.start),
-        url: `https://www.youtube.com/watch?v=${t.c.episodeId}&t=${secs}s`,
-        // Only surface a quote if it is genuinely present in the excerpt.
-        quote: quote && t.c.text.includes(quote.trim()) ? quote.trim() : null,
-      });
+      // Only surface a quote if it is genuinely present in the excerpt.
+      const safeQuote = quote && t.c.text.includes(quote.trim()) ? quote.trim() : null;
+
+      if (t.c.type === 'page') {
+        const dedupeKey = `page:${t.c.url}`;
+        if (seen.has(dedupeKey)) continue;
+        seen.add(dedupeKey);
+        sources.push({
+          type: 'page',
+          episode: t.c.title,
+          timestamp: 'Team website',
+          url: t.c.url,
+          quote: safeQuote,
+        });
+      } else {
+        const secs = Math.floor(t.c.start);
+        const dedupeKey = `ep:${t.c.episodeId}:${secs}`;
+        if (seen.has(dedupeKey)) continue;
+        seen.add(dedupeKey);
+        sources.push({
+          type: 'episode',
+          episode: TITLES[t.c.episodeId] || t.c.episodeId,
+          timestamp: formatTimestamp(t.c.start),
+          url: `https://www.youtube.com/watch?v=${t.c.episodeId}&t=${secs}s`,
+          quote: safeQuote,
+        });
+      }
     }
 
     return res.end(

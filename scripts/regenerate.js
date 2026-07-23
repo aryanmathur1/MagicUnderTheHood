@@ -24,7 +24,8 @@ import { dirname, join } from 'node:path';
 
 import { fetchMetadata, fetchCaptionsJson3, downloadAudio } from './lib/ytdlp.js';
 import { parseJson3 } from './lib/captions.js';
-import { chunkSegments, paragraphs } from './lib/chunk.js';
+import { chunkSegments, chunkText, paragraphs } from './lib/chunk.js';
+import { fetchPageText } from './lib/pages.js';
 import { makeShowNotes, makeClips } from './lib/enrich.js';
 import { translateParagraphs } from './lib/translate.js';
 import { languages } from '../config/site.js';
@@ -52,6 +53,13 @@ async function loadConfig() {
   let eps = raw.episodes || [];
   if (only) eps = eps.filter((e) => e.id === only);
   return eps;
+}
+
+async function loadPages() {
+  const path = join(ROOT, 'config', 'pages.json');
+  if (!existsSync(path)) return [];
+  const raw = JSON.parse(await readFile(path, 'utf8'));
+  return (raw.pages || []).filter((p) => p && p.url);
 }
 
 async function getTranscript(meta) {
@@ -163,14 +171,35 @@ async function buildEmbeddings(records) {
   console.log('\n▶ Building embeddings index');
   const { embed } = await import('./lib/gemini.js');
   const index = [];
+
+  // Episode transcripts (chunks carry a timestamp).
   for (const rec of records) {
     const chunks = chunkSegments(rec.transcript?.segments || []);
     log(`${rec.id}: ${chunks.length} chunks`);
     for (const c of chunks) {
       const vector = await embed(c.text, 'RETRIEVAL_DOCUMENT');
-      index.push({ episodeId: rec.id, start: c.start, text: c.text, vector });
+      index.push({ type: 'episode', episodeId: rec.id, start: c.start, text: c.text, vector });
     }
   }
+
+  // Extra team web pages (chunks link to the page, no timestamp).
+  const pages = await loadPages();
+  const pageMeta = [];
+  for (const p of pages) {
+    try {
+      const { title, text } = await fetchPageText(p.url);
+      const chunks = chunkText(text);
+      log(`page ${p.url}: ${chunks.length} chunks`);
+      pageMeta.push({ title: p.title || title, url: p.url });
+      for (const c of chunks) {
+        const vector = await embed(c.text, 'RETRIEVAL_DOCUMENT');
+        index.push({ type: 'page', title: p.title || title, url: p.url, text: c.text, vector });
+      }
+    } catch (err) {
+      log(`⚠︎ page ${p.url} skipped: ${err.message}`);
+    }
+  }
+
   // Written into /api (NOT /public): only the serverless function needs the
   // vectors, and it guarantees Vercel bundles the file with the function. The
   // large index is never downloaded by browsers.
@@ -179,9 +208,9 @@ async function buildEmbeddings(records) {
   await mkdir(API_DIR, { recursive: true });
   await writeFile(
     join(API_DIR, 'embeddings.json'),
-    JSON.stringify({ dim: index[0]?.vector.length || 0, episodes, chunks: index })
+    JSON.stringify({ dim: index[0]?.vector.length || 0, episodes, pages: pageMeta, chunks: index })
   );
-  log(`saved api/embeddings.json (${index.length} chunks)`);
+  log(`saved api/embeddings.json (${index.length} chunks: ${index.filter((c) => c.type === 'episode').length} episode, ${index.filter((c) => c.type === 'page').length} page)`);
 }
 
 async function writeManifest(records) {

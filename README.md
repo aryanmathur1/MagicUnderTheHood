@@ -92,6 +92,19 @@ copy-paste chapter block for the YouTube description), picks **shareable clips**
 rebuilds the **search index**. Results are saved as JSON in `src/data/` and
 `api/embeddings.json` — commit those files.
 
+### Adding your own web pages to the search
+
+"Ask the Podcast" can also answer from pages on your team site (e.g. a robot-design
+writeup). Add them to [`config/pages.json`](./config/pages.json):
+
+```json
+{ "pages": [ { "url": "https://metalmagicftc.org/robot-design.html", "title": "Robot & Design" } ] }
+```
+
+Run `npm run regenerate` and the page's text is fetched, chunked, embedded, and cited in
+answers with a 🔗 link back to the page (episodes are cited with a ▶ timestamp). Only add
+pages you own or are allowed to index.
+
 ### Transcript translations
 
 Each transcript is pre-translated at build time into the languages listed in

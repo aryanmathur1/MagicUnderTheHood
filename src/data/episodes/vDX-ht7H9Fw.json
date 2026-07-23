@@ -158,7 +158,7 @@
       },
       {
         "start": 241.52,
-        "text": "drivetrain movements in the autonomous period our PDO pathing uh gometry system is able to move to a certain coordinate"
+        "text": "drivetrain movements in the autonomous period our PDO pathing odometry system is able to move to a certain coordinate"
       },
       {
         "start": 249.68,
@@ -265,7 +265,7 @@
     },
     {
       "start": 223.44,
-      "text": "So why don't we talk more about that odometry system? So from the bottom we have two odometry pods. These are swing arm X and Y. Obviously they are spring-loaded. In addition to coding our regular drivetrain movements in the autonomous period our PDO pathing uh gometry system is able to move to a certain coordinate on the field and it's much more accurate than just using coders."
+      "text": "So why don't we talk more about that odometry system? So from the bottom we have two odometry pods. These are swing arm X and Y. Obviously they are spring-loaded. In addition to coding our regular drivetrain movements in the autonomous period our PDO pathing odometry system is able to move to a certain coordinate on the field and it's much more accurate than just using coders."
     },
     {
       "start": 249.68,
@@ -346,7 +346,7 @@
       {
         "time": "4:09",
         "seconds": 249,
-        "quote": "gometry system is able to move to a certain coordinate on the field and it's much more accurate than just using coders."
+        "quote": "odometry system is able to move to a certain coordinate on the field and it's much more accurate than just using coders."
       }
     ],
     "youtubeChapterBlock": "0:08 Design Process and Kickoff Brainstorming\n1:06 Transitioning to a Custom Chassis\n1:47 Intake and Transfer Mechanics\n2:39 Future Sorting Mechanism Concepts\n3:25 Autonomous Coding and Odometry\n4:15 Limelight Vision and Sensors\n5:24 Advice for Rapid Prototyping"
@@ -565,5 +565,5 @@
       "dir": "rtl"
     }
   ],
-  "generatedAt": "2026-07-23T05:12:23.392Z"
+  "generatedAt": "2026-07-23T15:11:25.152Z"
 }

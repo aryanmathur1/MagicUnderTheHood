@@ -4,7 +4,7 @@ import { formatTimestamp, youtubeAt, humanDuration, formatUploadDate, teamFromTi
 
 export async function getStaticPaths() {
   // Vite bundles every committed episode JSON at build time. Add an episode by
-  // running the pipeline (which writes a new file here) — no code change needed.
+  // running the pipeline (which writes a new file here); no code change needed.
   const modules = import.meta.glob('../../data/episodes/*.json', { eager: true });
   const eps = Object.values(modules)
     .map((m) => m.default)

@@ -18,3 +18,4 @@ dist/
 # NOTE: generated data IS committed on purpose — that's the whole point of the
 # build-time architecture. Keep these tracked:
 #   src/data/**   api/embeddings.json
+.vercel

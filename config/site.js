@@ -1,5 +1,5 @@
 // Central config for the whole project. Non-programmers: the values most likely
-// to need changing over time are the Gemini model names — Google rotates which
+// to need changing over time are the Gemini model names, since Google rotates which
 // models are free. If a model stops working, update it here (and in Vercel it is
 // read from the same file), then re-run `npm run regenerate`.
 
@@ -18,7 +18,7 @@ export const site = {
 // Gemini models. All are on Google's free tier as of this writing. If Google
 // retires one, swap the id here. See https://ai.google.dev/gemini-api/docs/models
 export const models = {
-  // RUNTIME "Ask the Podcast" answers — called once per visitor question, so it
+  // RUNTIME "Ask the Podcast" answers, called once per visitor question, so it
   // needs a generous free-tier daily limit. Flash-Lite is the high-volume free
   // tier. Using the moving "-latest" alias means it won't 404 when Google retires
   // a specific version (which is exactly what happened to gemini-2.5-flash).
@@ -42,7 +42,7 @@ export const models = {
 
 // Languages the transcript is pre-translated into at build time. English is the
 // original and always available. Add or remove entries here, then re-run
-// `npm run regenerate` — translations are cached and only (re)generated when the
+// `npm run regenerate`. Translations are cached and only (re)generated when the
 // transcript changes or you pass --force. `dir: 'rtl'` renders right-to-left.
 export const languages = [
   { code: 'es', label: 'Español', name: 'Spanish' },

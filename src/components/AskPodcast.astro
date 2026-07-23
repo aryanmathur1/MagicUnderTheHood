@@ -12,9 +12,9 @@ const { autofocus = false } = Astro.props;
       Ask the podcast a question
     </label>
     <p class="ask-hint" id="ask-hint">
-      Plain English works — e.g. “How did teams handle sorting this season?” You’ll
-      get an answer built only from our episode transcripts, with links to the exact
-      moment.
+      Plain English works. For example, “How did teams handle sorting this season?” You’ll
+      get an answer built only from our episodes and team pages, with links to the exact
+      moment or source.
     </p>
     <div class="ask-row">
       <input
@@ -41,11 +41,21 @@ const { autofocus = false } = Astro.props;
 
 <style>
   .ask {
-    background: linear-gradient(180deg, var(--purple-050), #fff);
+    position: relative;
+    background: linear-gradient(180deg, #fbf9ff 0%, #ffffff 60%);
     border: 1px solid var(--purple-100);
     border-radius: var(--radius-lg);
-    padding: clamp(1.25rem, 4vw, 2rem);
-    box-shadow: var(--shadow);
+    padding: clamp(1.35rem, 4vw, 2.1rem);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  /* Slim gradient accent along the top edge. */
+  .ask::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--grad);
   }
   .ask-label {
     display: block;
@@ -69,12 +79,20 @@ const { autofocus = false } = Astro.props;
     flex: 1;
     font-family: var(--font-body);
     font-size: 1.05rem;
-    padding: 0.85rem 1rem;
+    padding: 0.95rem 1.1rem;
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 13px;
     background: #fff;
     color: var(--ink);
     min-width: 0;
+    box-shadow: inset 0 1px 2px rgba(28, 24, 48, 0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .ask-row input::placeholder {
+    color: #a7a2b8;
+  }
+  .ask-row input:hover {
+    border-color: var(--purple-100);
   }
   .ask-row input:focus-visible {
     outline: 3px solid var(--focus);
@@ -208,15 +226,15 @@ const { autofocus = false } = Astro.props;
   function renderAnswer(data) {
     const sources = Array.isArray(data.sources) ? data.sources : [];
     const sourcesHtml = sources.length
-      ? `<div class="sources"><h4>Sources — verify for yourself</h4>${sources
+      ? `<div class="sources"><h4>Sources you can verify</h4>${sources
           .map(
             (s) => `
         <div class="source">
           <div>
             <div class="source-ep">${esc(s.episode)}</div>
-            <a class="ts" href="${esc(s.url)}" target="_blank" rel="noopener">▶ ${esc(
-              s.timestamp
-            )}</a>
+            <a class="ts" href="${esc(s.url)}" target="_blank" rel="noopener">${
+              s.type === 'page' ? '🔗' : '▶'
+            } ${esc(s.timestamp)}</a>
             ${s.quote ? `<blockquote>“${esc(s.quote)}”</blockquote>` : ''}
           </div>
         </div>`
