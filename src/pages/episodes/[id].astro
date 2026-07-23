@@ -50,17 +50,17 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
         <div class="main-col">
           {
             notes?.summary && (
-              <section class="block" aria-labelledby="summary-h">
-                <h2 id="summary-h">Episode summary</h2>
+              <details class="block collapse" open>
+                <summary><h2>Episode summary</h2></summary>
                 <p class="summary-text">{notes.summary}</p>
-              </section>
+              </details>
             )
           }
 
           {
             notes?.pullQuotes?.length > 0 && (
-              <section class="block" aria-labelledby="quotes-h">
-                <h2 id="quotes-h">Pull quotes</h2>
+              <details class="block collapse" open>
+                <summary><h2>Pull quotes</h2></summary>
                 <div class="quotes">
                   {notes.pullQuotes.map((q) => (
                     <figure class="quote card">
@@ -73,15 +73,15 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
                     </figure>
                   ))}
                 </div>
-              </section>
+              </details>
             )
           }
 
-          <section class="block" aria-labelledby="transcript-h">
-            <div class="transcript-head">
-              <h2 id="transcript-h">Full transcript</h2>
-              {
-                hasTranslations && (
+          <details class="block collapse" open>
+            <summary><h2>Full transcript</h2></summary>
+            {
+              hasTranslations && (
+                <div class="transcript-tools">
                   <div class="lang-picker">
                     <label for="lang-select">
                       <span aria-hidden="true">🌐</span>
@@ -94,9 +94,9 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
                       ))}
                     </select>
                   </div>
-                )
-              }
-            </div>
+                </div>
+              )
+            }
             {
               paragraphs.length ? (
                 <Fragment>
@@ -133,14 +133,14 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
                 </p>
               )
             }
-          </section>
+          </details>
         </div>
 
         <aside class="side-col">
           {
             notes?.chapters?.length > 0 && (
-              <nav class="side-card card" aria-labelledby="chapters-h">
-                <h2 id="chapters-h">Chapters</h2>
+              <details class="side-card card collapse" open>
+                <summary><h2>Chapters</h2></summary>
                 <ol class="chapters">
                   {notes.chapters.map((c) => (
                     <li>
@@ -151,27 +151,27 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
                     </li>
                   ))}
                 </ol>
-              </nav>
+              </details>
             )
           }
 
           {
             notes?.youtubeChapterBlock && (
-              <div class="side-card card">
-                <h2>YouTube chapters</h2>
+              <details class="side-card card collapse" open>
+                <summary><h2>YouTube chapters</h2></summary>
                 <p class="muted small">Copy-paste into your video description:</p>
                 <pre class="copyblock" id="chapterblock">{notes.youtubeChapterBlock}</pre>
                 <button class="btn btn-ghost copy-btn" data-copy-target="chapterblock">
                   Copy chapters
                 </button>
-              </div>
+              </details>
             )
           }
 
           {
             clips.length > 0 && (
-              <div class="side-card card" aria-labelledby="clips-h">
-                <h2 id="clips-h">Shareable clips</h2>
+              <details class="side-card card collapse" open>
+                <summary><h2>Shareable clips</h2></summary>
                 <p class="muted small">Best moments for Reels / Shorts.</p>
                 <ul class="clips">
                   {clips.map((clip, i) => (
@@ -190,7 +190,7 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
                     </li>
                   ))}
                 </ul>
-              </div>
+              </details>
             )
           }
 
@@ -245,6 +245,46 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
     .block { margin-bottom: 2.5rem; }
     .block h2 { margin-bottom: 0.75rem; }
     .summary-text { font-size: 1.1rem; color: var(--ink); }
+
+    /* Collapsible sections (native details/summary). */
+    .collapse > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.9rem;
+      user-select: none;
+    }
+    .collapse > summary::-webkit-details-marker { display: none; }
+    .collapse > summary h2 { margin: 0; }
+    .collapse > summary:hover h2 { color: var(--purple); }
+    .collapse > summary:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+    /* Chevron that rotates when the section is open. */
+    .collapse > summary::after {
+      content: '';
+      width: 9px;
+      height: 9px;
+      flex: none;
+      margin-right: 3px;
+      border-right: 2px solid var(--purple);
+      border-bottom: 2px solid var(--purple);
+      transform: rotate(45deg);
+      transition: transform 0.2s ease;
+    }
+    .collapse[open] > summary::after { transform: rotate(-135deg); }
+    .block.collapse[open] > summary { margin-bottom: 0.85rem; }
+    .side-card.collapse > summary { margin-bottom: 0; }
+    .side-card.collapse[open] > summary { margin-bottom: 0.7rem; }
+    @media (prefers-reduced-motion: reduce) {
+      .collapse > summary::after { transition: none; }
+    }
+
+    .transcript-tools { display: flex; justify-content: flex-end; margin-bottom: 0.5rem; }
     .quotes { display: grid; gap: 1rem; }
     .quote { padding: 1.1rem 1.25rem; }
     .quote blockquote {
@@ -256,14 +296,6 @@ const embedBase = `https://www.youtube-nocookie.com/embed/${ep.id}?rel=0`;
       line-height: 1.45;
     }
     .quote figcaption { margin: 0; }
-    .transcript-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .transcript-head h2 { margin-bottom: 0; }
     .lang-picker {
       display: flex;
       align-items: center;
