@@ -1,7 +1,7 @@
 {
   "name": "magic-under-the-hood",
   "version": "1.0.0",
-  "description": "Magic Under the Hood — Searchable Podcast Archive for Metal Magic FTC Team #23362",
+  "description": "Magic Under the Hood: Searchable Podcast Archive for Metal Magic FTC Team #23362",
   "type": "module",
   "private": true,
   "scripts": {

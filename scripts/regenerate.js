@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================================
-// REGENERATE — the offline build pipeline.
+// REGENERATE: the offline build pipeline.
 //
 //   npm run regenerate                 # rebuild everything for every episode
 //   npm run regenerate -- --episode ID # rebuild just one episode
@@ -9,7 +9,7 @@
 // Add an episode by putting its YouTube id in config/episodes.json, then run
 // this. Heavy work (transcription, show notes, clips, embeddings) happens HERE,
 // once, and the results are committed as static JSON. The live website does no
-// heavy AI work — see ARCHITECTURE.md.
+// heavy AI work; see ARCHITECTURE.md.
 //
 // Stages that need NO api key:  metadata, transcript-from-captions.
 // Stages that need GEMINI_API_KEY: transcript-from-audio (fallback), show notes,
@@ -71,10 +71,10 @@ async function getTranscript(meta) {
   }
   // 2) Fallback: download audio and transcribe with Gemini (needs api key).
   if (!hasKey) {
-    log('⚠︎ no captions and no GEMINI_API_KEY — transcript skipped.');
+    log('⚠︎ no captions and no GEMINI_API_KEY; transcript skipped.');
     return null;
   }
-  log('no captions found — transcribing audio with Gemini (this is slower)…');
+  log('no captions found; transcribing audio with Gemini (this is slower)…');
   const { transcribeAudio } = await import('./lib/gemini.js');
   const { path, dir } = await downloadAudio(meta.id);
   try {
@@ -137,7 +137,7 @@ async function buildEpisode(ep, index) {
     log('finding shareable clips…');
     record.clips = await makeClips(meta, segments);
   } else if (segments.length && !hasKey) {
-    log('⚠︎ GEMINI_API_KEY not set — show notes & clips skipped.');
+    log('⚠︎ GEMINI_API_KEY not set; show notes & clips skipped.');
   }
 
   // --- Stage 5: translations (need key) ---
@@ -152,7 +152,7 @@ async function buildEpisode(ep, index) {
     log(`translating transcript into ${languages.length} languages…`);
     record.translations = await translateParagraphs(para, (m) => log('   ' + m));
   } else if (para.length && !hasKey) {
-    log('⚠︎ GEMINI_API_KEY not set — translations skipped.');
+    log('⚠︎ GEMINI_API_KEY not set; translations skipped.');
   } else if (aligned) {
     log('translations: reusing cached');
   }
@@ -165,7 +165,7 @@ async function buildEpisode(ep, index) {
 
 async function buildEmbeddings(records) {
   if (!hasKey) {
-    log('⚠︎ GEMINI_API_KEY not set — embeddings index skipped.');
+    log('⚠︎ GEMINI_API_KEY not set; embeddings index skipped.');
     return;
   }
   console.log('\n▶ Building embeddings index');
@@ -232,8 +232,8 @@ async function writeManifest(records) {
 }
 
 async function main() {
-  console.log('Magic Under the Hood — regenerate pipeline');
-  console.log(hasKey ? '  GEMINI_API_KEY detected — all stages enabled.' : '  No GEMINI_API_KEY — running free stages only (metadata + captions).');
+  console.log('Magic Under the Hood: regenerate pipeline');
+  console.log(hasKey ? '  GEMINI_API_KEY detected; all stages enabled.' : '  No GEMINI_API_KEY; running free stages only (metadata + captions).');
   const eps = await loadConfig();
   if (!eps.length) {
     console.error('No episodes to build. Check config/episodes.json' + (only ? ` for id ${only}` : ''));

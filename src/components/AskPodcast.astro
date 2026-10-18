@@ -4,35 +4,46 @@
 // that holds the key). No key ever touches this client code.
 import { guard } from '../../config/site.js';
 const { autofocus = false } = Astro.props;
+
+// Shown as one-click chips and cycled through the placeholder.
+const suggestions = [
+  'How did teams design their intake?',
+  'How do teams use a Limelight camera?',
+  'How did a rookie team get started?',
+  'What helped teams score in autonomous?',
+];
 ---
 
-<section class="ask" aria-labelledby="ask-heading">
+<section class="ask panel" id="ask" aria-labelledby="ask-heading">
+  <div class="ask-bar">
+    <span class="onair" aria-hidden="true"><span class="onair-dot"></span>On air</span>
+    <label id="ask-heading" class="ask-label" for="ask-input">Ask the podcast</label>
+    <span class="ask-kbd" aria-hidden="true"><kbd>/</kbd> to focus</span>
+  </div>
+
   <form class="ask-form" id="ask-form" role="search" autocomplete="off">
-    <label id="ask-heading" class="ask-label" for="ask-input">
-      Ask the podcast a question
-    </label>
-    <p class="ask-hint" id="ask-hint">
-      Plain English works. For example, “How did teams handle sorting this season?” You’ll
-      get an answer built only from our episodes and team pages, with links to the exact
-      moment or source.
-    </p>
     <div class="ask-row">
       <input
         id="ask-input"
         name="q"
         type="text"
         maxlength={guard.maxQuestionChars}
-        placeholder="Ask anything about the episodes…"
+        placeholder={suggestions[0]}
         aria-describedby="ask-hint"
         autofocus={autofocus}
+        data-suggestions={JSON.stringify(suggestions)}
         required
       />
       <button class="btn btn-primary" type="submit" id="ask-submit">
         <span class="ask-submit-label">Ask</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
       </button>
     </div>
-    <div class="ask-meta">
-      <span class="chip" hidden id="ask-count"></span>
+    <p class="ask-hint" id="ask-hint">
+      Answers come only from our episodes and team pages, with a link to the exact moment.
+    </p>
+    <div class="ask-try">
+      {suggestions.map((s) => <button type="button" class="suggest" data-q={s}>{s}</button>)}
     </div>
   </form>
 
@@ -42,220 +53,369 @@ const { autofocus = false } = Astro.props;
 <style>
   .ask {
     position: relative;
-    background: linear-gradient(180deg, #fbf9ff 0%, #ffffff 60%);
-    border: 1px solid var(--purple-100);
-    border-radius: var(--radius-lg);
-    padding: clamp(1.35rem, 4vw, 2.1rem);
-    box-shadow: var(--shadow-lg);
+    padding: 0;
     overflow: hidden;
+    border-radius: var(--r-lg);
+    transition: border-color 240ms ease, box-shadow 240ms ease;
   }
-  /* Slim gradient accent along the top edge. */
-  .ask::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 4px;
-    background: var(--grad);
+  .ask.live {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .ask-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel-2);
+  }
+  .onair {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border: 1.5px solid var(--line-2);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--dim);
+    transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  }
+  .onair-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--dim);
+    transition: background-color 200ms ease, box-shadow 200ms ease;
+  }
+  .ask.live .onair {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .ask.live .onair-dot {
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0.35;
+    }
   }
   .ask-label {
-    display: block;
-    font-family: var(--font-head);
-    font-weight: 600;
-    font-size: 1.15rem;
-    color: var(--ink);
-    margin-bottom: 0.25rem;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
   }
-  .ask-hint {
-    color: var(--ink-soft);
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-    max-width: 62ch;
+  .ask-kbd {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--dim);
+  }
+  .ask-form {
+    padding: clamp(18px, 3vw, 28px);
   }
   .ask-row {
     display: flex;
-    gap: 0.6rem;
+    gap: 10px;
   }
   .ask-row input {
     flex: 1;
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    padding: 0.95rem 1.1rem;
-    border: 1px solid var(--line);
-    border-radius: 13px;
-    background: #fff;
-    color: var(--ink);
     min-width: 0;
-    box-shadow: inset 0 1px 2px rgba(28, 24, 48, 0.04);
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    min-height: 58px;
+    padding: 0 20px;
+    font: inherit;
+    font-size: 1.12rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    transition: border-color 160ms ease;
   }
   .ask-row input::placeholder {
-    color: #a7a2b8;
+    color: var(--dim);
   }
-  .ask-row input:hover {
-    border-color: var(--purple-100);
+  .ask-row input:focus {
+    outline: none;
+    border-color: var(--text);
   }
-  .ask-row input:focus-visible {
-    outline: 3px solid var(--focus);
-    outline-offset: 1px;
-    border-color: var(--purple);
+  .ask-row .btn {
+    min-height: 58px;
+    padding-inline: 26px;
   }
-  .ask-meta {
-    min-height: 0.5rem;
-    margin-top: 0.6rem;
+  .ask-hint {
+    margin: 12px 4px 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
-  .ask-results {
-    margin-top: 1.25rem;
+  .ask-try {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
   }
-  .answer-card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.35rem;
-    box-shadow: var(--shadow-sm);
+  .suggest {
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    background: transparent;
+    border: 1px dashed var(--line-2);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease;
   }
-  .answer-card h3 {
-    margin-top: 0;
+  .suggest:hover {
+    color: var(--text);
+    border-style: solid;
+    border-color: var(--accent-2);
+    background: var(--accent-2-soft);
   }
-  .answer-body {
-    font-size: 1.05rem;
-    color: var(--ink);
+  .suggest:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  /* Results are injected by JS, so they're styled with :global inside .ask-results. */
+  .ask-results:not(:empty) {
+    padding: clamp(18px, 3vw, 28px);
+    border-top: 1px solid var(--line);
+  }
+  .ask-results :global(.answer) {
+    animation: rise 420ms var(--ease) both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+  .ask-results :global(.answer-q) {
+    margin: 0 0 12px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent-2);
+  }
+  .ask-results :global(.answer-body) {
+    max-width: 68ch;
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.65;
     white-space: pre-wrap;
   }
-  .sources {
-    margin-top: 1.25rem;
-    border-top: 1px dashed var(--line);
-    padding-top: 1rem;
+  .ask-results :global(.sources) {
+    margin-top: 24px;
   }
-  .sources h4 {
-    font-family: var(--font-head);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--gray);
-    margin: 0 0 0.75rem;
+  .ask-results :global(.sources h4) {
+    margin: 0 0 12px;
+    font-size: 1rem;
+    color: var(--text);
   }
-  .source {
-    display: flex;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--line);
+  .ask-results :global(.source-list) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
   }
-  .source:last-child {
-    border-bottom: 0;
+  .ask-results :global(.source) {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: var(--bg);
+    text-decoration: none;
+    animation: rise 420ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+    transition: border-color 160ms ease, transform 200ms var(--ease);
   }
-  .source blockquote {
-    margin: 0.35rem 0 0;
-    padding-left: 0.8rem;
-    border-left: 3px solid var(--purple-100);
-    color: var(--ink-soft);
-    font-size: 0.95rem;
+  .ask-results :global(.source:hover) {
+    border-color: var(--accent-2);
+    transform: translateY(-2px);
   }
-  .source-ep {
+  .ask-results :global(.source-ep) {
     font-weight: 600;
-    font-family: var(--font-head);
     font-size: 0.95rem;
+    line-height: 1.3;
   }
-  .ask-status {
-    color: var(--ink-soft);
+  .ask-results :global(.source blockquote) {
+    margin: 0;
+    padding-left: 12px;
+    border-left: 2px solid var(--accent-2);
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .ask-results :global(.ask-status) {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.5rem 0;
+    gap: 14px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.85rem;
   }
-  .spinner {
-    width: 18px;
-    height: 18px;
-    border: 3px solid var(--purple-100);
-    border-top-color: var(--purple);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    flex: none;
+  /* VU meter while we wait. */
+  .ask-results :global(.vu) {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 20px;
   }
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
+  .ask-results :global(.vu i) {
+    width: 4px;
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+    transform-origin: bottom;
+    animation: vu 700ms ease-in-out infinite;
+  }
+  .ask-results :global(.vu i:nth-child(2)) { animation-delay: -150ms; }
+  .ask-results :global(.vu i:nth-child(3)) { animation-delay: -420ms; }
+  .ask-results :global(.vu i:nth-child(4)) { animation-delay: -280ms; }
+  .ask-results :global(.vu i:nth-child(5)) { animation-delay: -560ms; }
+  @keyframes vu {
+    0%,
+    100% {
+      transform: scaleY(0.25);
+    }
+    50% {
+      transform: scaleY(1);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .spinner {
-      animation: none;
-    }
-  }
-  .ask-error {
-    background: #fff4f4;
-    border: 1px solid #f3d0d0;
-    color: #8a2a2a;
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
+  .ask-results :global(.ask-error) {
+    border-left: 3px solid var(--accent);
+    color: var(--danger);
+    padding: 4px 0 4px 14px;
   }
   @media (max-width: 560px) {
     .ask-row {
       flex-direction: column;
     }
+    .ask-kbd {
+      display: none;
+    }
   }
 </style>
 
 <script>
+  const box = document.getElementById('ask');
   const form = document.getElementById('ask-form');
   const input = document.getElementById('ask-input');
   const results = document.getElementById('ask-results');
   const submit = document.getElementById('ask-submit');
   const submitLabel = submit.querySelector('.ask-submit-label');
+  const chips = document.querySelectorAll('.suggest');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const esc = (s) =>
     String(s ?? '').replace(/[&<>"']/g, (c) =>
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
     );
 
-  function setBusy(busy) {
-    submit.disabled = busy;
-    input.disabled = busy;
-    submitLabel.textContent = busy ? 'Asking…' : 'Ask';
+  // Lets the hero oscilloscope react to typing and to the request in flight.
+  const signal = (type) => window.dispatchEvent(new CustomEvent(type));
+
+  // ON AIR light: lit while the box has focus or a question is being answered.
+  let busy = false;
+  const syncLive = () => box.classList.toggle('live', busy || box.contains(document.activeElement));
+  box.addEventListener('focusin', syncLive);
+  box.addEventListener('focusout', () => setTimeout(syncLive, 0));
+  input.addEventListener('input', () => signal('ask:keystroke'));
+
+  // Press "/" anywhere outside a text field to jump to the search box.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '/' || e.metaKey || e.ctrlKey) return;
+    if (e.target.closest('input, textarea, select, [contenteditable]')) return;
+    e.preventDefault();
+    input.focus();
+    input.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+  });
+
+  // Typewriter placeholder cycling through the example questions while the box
+  // is empty. Stops for good once someone types.
+  const examples = JSON.parse(input.dataset.suggestions || '[]');
+  if (examples.length > 1 && !reduceMotion) {
+    let ex = 0;
+    let pos = examples[0].length;
+    let deleting = true;
+    let timer;
+    const tick = () => {
+      if (input.value) return;
+      if (deleting) {
+        pos--;
+        if (pos <= 0) {
+          deleting = false;
+          ex = (ex + 1) % examples.length;
+        }
+      } else {
+        pos++;
+      }
+      input.placeholder = examples[ex].slice(0, Math.max(0, pos)) || ' ';
+      let delay = deleting ? 26 : 52;
+      if (!deleting && pos >= examples[ex].length) {
+        deleting = true;
+        delay = 2400;
+      }
+      timer = setTimeout(tick, delay);
+    };
+    timer = setTimeout(tick, 2600);
+    input.addEventListener(
+      'input',
+      () => {
+        clearTimeout(timer);
+        input.placeholder = examples[ex];
+      },
+      { once: true }
+    );
+  }
+
+  function setBusy(on) {
+    busy = on;
+    submit.disabled = on;
+    input.disabled = on;
+    chips.forEach((c) => (c.disabled = on));
+    submitLabel.textContent = on ? 'Asking' : 'Ask';
+    syncLive();
+    signal(on ? 'ask:busy' : 'ask:idle');
   }
 
   function renderStatus(msg) {
-    results.innerHTML = `<div class="ask-status"><span class="spinner" aria-hidden="true"></span><span>${esc(
-      msg
-    )}</span></div>`;
+    results.innerHTML = `<div class="ask-status"><span class="vu" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>${esc(msg)}</span></div>`;
   }
 
   function renderError(msg) {
     results.innerHTML = `<div class="ask-error" role="alert">${esc(msg)}</div>`;
   }
 
-  function renderAnswer(data) {
+  function renderAnswer(q, data) {
     const sources = Array.isArray(data.sources) ? data.sources : [];
     const sourcesHtml = sources.length
-      ? `<div class="sources"><h4>Sources you can verify</h4>${sources
+      ? `<div class="sources"><h4>Sources (${sources.length})</h4><div class="source-list">${sources
           .map(
-            (s) => `
-        <div class="source">
-          <div>
-            <div class="source-ep">${esc(s.episode)}</div>
-            <a class="ts" href="${esc(s.url)}" target="_blank" rel="noopener">${
-              s.type === 'page' ? '🔗' : '▶'
-            } ${esc(s.timestamp)}</a>
-            ${s.quote ? `<blockquote>“${esc(s.quote)}”</blockquote>` : ''}
-          </div>
-        </div>`
+            (s, i) => `
+        <a class="source" style="--i:${i}" href="${esc(s.url)}" target="_blank" rel="noopener">
+          <span class="ts">${s.type === 'page' ? 'Team website' : '▶ ' + esc(s.timestamp)}</span>
+          <span class="source-ep">${esc(s.episode)}</span>
+          ${s.quote ? `<blockquote>“${esc(s.quote)}”</blockquote>` : ''}
+        </a>`
           )
-          .join('')}</div>`
+          .join('')}</div></div>`
       : '';
 
     results.innerHTML = `
-      <article class="answer-card">
-        <h3>Answer</h3>
-        <div class="answer-body">${esc(data.answer)}</div>
+      <article class="answer">
+        <p class="answer-q">Q: ${esc(q)}</p>
+        <p class="answer-body">${esc(data.answer)}</p>
         ${sourcesHtml}
       </article>`;
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const q = input.value.trim();
-    if (!q) return;
+  async function ask(q) {
     setBusy(true);
-    renderStatus('Searching the transcripts…');
+    renderStatus('Searching the transcripts');
     try {
       const res = await fetch('/api/ask', {
         method: 'POST',
@@ -266,12 +426,26 @@ const { autofocus = false } = Astro.props;
       if (!res.ok) {
         renderError(data.error || `Something went wrong (${res.status}). Please try again.`);
       } else {
-        renderAnswer(data);
+        renderAnswer(q, data);
       }
-    } catch (err) {
+    } catch {
       renderError('Could not reach the search service. Check your connection and try again.');
     } finally {
       setBusy(false);
     }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (q) ask(q);
   });
+
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      input.value = chip.dataset.q;
+      input.dispatchEvent(new Event('input'));
+      ask(chip.dataset.q);
+    })
+  );
 </script>

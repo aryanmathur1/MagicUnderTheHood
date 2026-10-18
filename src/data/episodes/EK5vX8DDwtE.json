@@ -419,11 +419,11 @@
       "Certo, então passando para uma pergunta rápida e divertida. Qual é a sua parte favorita do robô? Então, minha parte favorita deste robô, desta construção, é que temos tanto intake quanto carga humana. Isso é extremamente único, pois poucas equipes conseguem fazer isso. A maioria das equipes tem apenas intake ou apenas carga humana. Nenhuma equipe tem ambos. Uau, isso é realmente interessante e algo que não tenho visto muito. Então, muito legal. Certo, obrigado pessoal por assistirem. Obrigado equipe Turbo Terminators 30348. E é isso para este episódio de Magic Under the Hood."
     ],
     "zh": [
-      "大家好，我是Rob，我是Nihal，我们都来自Metal Magagic车队。今天在这一期的《Magic Under the Hood》节目中，我们邀请到了来自弗吉尼亚州阿什曼、参加切萨皮克赛区的菜鸟车队——30348号Turbo Terminators车队。今天的第一个问题我想问一下大家，你们是怎么规划这个赛季以及应对随之而来的各种设计挑战的？",
+      "大家好，我是Rob，我是Nihal，我们都来自Metal Magagic车队。今天在这一期的《Magic Under the Hood》节目中，我们邀请到了来自弗吉尼亚州阿什曼、参加切萨皮克赛区的菜鸟车队，30348号Turbo Terminators车队。今天的第一个问题我想问一下大家，你们是怎么规划这个赛季以及应对随之而来的各种设计挑战的？",
       "嗯，在赛季开赛（Kickoff）刚结束的时候，我们连续好几个星期深入参考和观看了许多老牌车队发布的30小时挑战赛视频，从中汲取了大量的灵感。一开始，呃，我们拥有Rev入门套件，这为我们提供了丰富多样的零件来做实验。我们先是搭建了一个初始的飞轮，随着不断迭代，最终成就了更多部分乃至我们的整台机器人。",
       "好的，谢谢。这很有道理。那么，能为我详细介绍一下你们的传输流程吗，从进料口一直到得分系统？嗯，我们有一个进料口，球从这里被吸进去；一旦被拉上去之后，舵机会把球推向飞轮，接着球被卷入并射出。好的，谢谢。",
       "好的，各位。那么接下来聊聊你们的进料口。我注意到你们使用的是扁平轮（flap wheels）。那么，相比于采用更主流的进料方案，你们选择这个的原因是什么呢？对，一开始我们考虑过使用手术橡胶管（surgical tubing），但我们的Rev入门套件里本来就有这种扁平轮，我们就想拿来做个实验。结果发现它们是个非常不错的选择，效果和手术管以及其他任何进料方式一样好。",
-      "嗯，除此之外，它们也确实非常符合我们最终确定的设计思路——把得分物件向上拉进我们的存储系统里，因为这就是我们最后采用的方案。同时，当时很多进料轮也处于缺货状态。非常感谢。接下来谈谈你们的传输系统。我注意到你们有一个方向改变的结构。",
+      "嗯，除此之外，它们也确实非常符合我们最终确定的设计思路，把得分物件向上拉进我们的存储系统里，因为这就是我们最后采用的方案。同时，当时很多进料轮也处于缺货状态。非常感谢。接下来谈谈你们的传输系统。我注意到你们有一个方向改变的结构。",
       "呃，这真的很独特。你们能详细说说为什么要这么做吗？我们之所以做这个方向改变，是因为一开始我们的机器人是从顶部进行人工装载（human load）的，后来我们迭代出了一个能从底部吸球的进料口。这种设计让我们既能像大多数机器人那样进行人工喂球，又能进行常规进料，从而让我们更具灵活性，并在残局阶段（endgame）的得分图案（motif）上帮了我们大忙。",
       "非常感谢，这真的很有趣。那么各位，呃，接下来是你们的发射器。我注意到你们有一个固定倾角的发射器护罩。呃，你们能稍微详细讲讲吗？比如你们为什么选择它，以及到目前为止，这个赛季你们看到了哪些优势？嗯，最初使用起步机器人（starter bot）的时候，斜坡其实是直直朝上的。",
       "基本上，这只允许我们在紧贴球门的地方发射。但我们希望能够兼顾近距离投射、打板投篮（中间距离的那种）以及远距离投射的灵活性。所以我们意识到，把斜坡调成这样的倾角，就能为我们提供完美的抛物线和回旋（backspin），从而实现这三种投射方式。",

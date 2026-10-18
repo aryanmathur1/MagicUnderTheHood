@@ -1,113 +1,261 @@
 ---
 import Base from '../layouts/Base.astro';
+import Wave from '../components/Wave.astro';
 import { site } from '../../config/site.js';
+import { speechWaveform } from '../lib/util.js';
+
+const modules = import.meta.glob('../data/episodes/*.json', { eager: true });
+const headWave = Object.values(modules).flatMap((m) => speechWaveform(m.default, 50));
+
+const features = [
+  ['Full transcripts', 'Every episode, readable and searchable. Good for accessibility and for search engines.'],
+  ['Ask the podcast', 'A question in plain English gets an answer stitched together from what teams actually said.'],
+  ['Show notes', 'A summary, chapter markers, and pull quotes for each episode.'],
+  ['Clip finder', 'The most shareable moments, picked and captioned for Reels and Shorts.'],
+];
 ---
 
 <Base path="/about/" title="About">
-  <section class="section">
-    <div class="container narrow">
-      <p class="eyebrow">About</p>
+  <header class="page-head">
+    <Wave values={headWave} class="head-wave" />
+    <div class="container">
       <h1>Making our podcast findable</h1>
-      <p class="lede">
-        {site.team} runs the first FTC interview podcast in the Chesapeake region. We sit down
-        with other teams and pull out the real, practical advice: how they designed a
-        mechanism, how they organized their season, and what they’d do differently. Great stuff,
-        but it was trapped inside videos. This site sets it free.
+      <p class="lead">
+        {site.team} runs the first FTC interview podcast in the Chesapeake region. The advice was
+        great, but it was trapped inside videos. This site sets it free.
       </p>
+    </div>
+  </header>
 
-      <figure class="team-photo">
+  <section class="section">
+    <div class="container split">
+      <div class="copy" data-reveal>
+        <h2>Why we built this</h2>
+        <p>
+          We sit down with other teams and pull out the practical stuff: how they designed a
+          mechanism, how they organized their season, and what they’d do differently next time.
+        </p>
+        <p>
+          The catch is that search engines can’t listen to video. So we turned every episode
+          into text you can search, read, and link to.
+        </p>
+      </div>
+      <figure class="photo" data-reveal style="--i:1">
         <img
           src="/team.jpg"
           alt="The Metal Magic FTC #23362 team standing with their competition robot and two trophies in their workshop"
-          width="1000"
-          height="694"
+          width="1232"
+          height="848"
           loading="lazy"
-          onerror="this.closest('.team-photo').style.display='none'"
         />
-        <figcaption>{site.team} with our robot and hardware.</figcaption>
+        <figcaption><span class="rec"></span>{site.team}, {site.location}</figcaption>
       </figure>
+    </div>
+  </section>
 
-      <h2>What this site does</h2>
-      <ul class="prose-list">
-        <li><strong>Full transcripts</strong> for every episode, so the advice is readable and searchable, which is good for accessibility and for search engines.</li>
-        <li><strong>Ask the Podcast</strong>: type a question in plain English and get an answer stitched together from what teams actually said, with links to the exact moment.</li>
-        <li><strong>Show notes</strong>: a summary, chapter markers, and pull quotes for each episode.</li>
-        <li><strong>Clip finder</strong>: the most shareable moments, ready for Reels and Shorts.</li>
+  <section class="section tight">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <div>
+          <h2>What you can do here</h2>
+        </div>
+      </div>
+      <ul class="features">
+        {
+          features.map(([t, d], i) => (
+            <li class="feature panel" data-reveal style={`--i:${i}`}>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </li>
+          ))
+        }
       </ul>
+    </div>
+  </section>
 
-      <h2>How we keep it honest</h2>
-      <p>We care a lot about not putting words in anyone’s mouth. So we built in guardrails:</p>
-      <ul class="prose-list">
+  <section class="section tight">
+    <div class="container split top">
+      <div class="copy" data-reveal>
+        <h2>How we keep it honest</h2>
+        <p>The search uses AI, so we built guardrails into every step to keep it accurate and checkable.</p>
+      </div>
+      <ul class="checks" data-reveal style="--i:1">
         <li><strong>Answers come only from the transcripts.</strong> If the archive doesn’t cover your question, the site says so plainly instead of guessing.</li>
-        <li><strong>Every answer shows its sources</strong> (the episode name and a timestamp link) so you can watch it yourself and verify.</li>
-        <li><strong>We quote or clearly paraphrase.</strong> We never invent a quote or attribute something a guest didn’t say.</li>
+        <li><strong>Every answer shows its sources,</strong> with the episode name and a timestamp link, so you can watch it yourself.</li>
+        <li><strong>We quote or clearly paraphrase.</strong> Quotes are checked word for word against the transcript.</li>
         <li><strong>It’s written for students.</strong> The whole archive is kept appropriate for a school audience.</li>
       </ul>
+    </div>
+  </section>
 
-      <h2>How it’s built</h2>
-      <p>
-        All the heavy lifting (transcription, summaries, chapter markers, clip picks, and the
-        search index) happens ahead of time in an offline script and is saved as plain files.
-        That keeps the live site fast and inexpensive to run. The only thing that happens live
-        is answering your question, and that request goes through a small secure service so our
-        API key is never exposed. If you’re curious about the details, our team documented the
-        whole pipeline in <code>ARCHITECTURE.md</code>.
-      </p>
-
-      <div class="cta-card card">
-        <div>
-          <h3>Watch the full episodes</h3>
-          <p class="muted">Everything here links back to the original videos.</p>
+  <section class="section tight">
+    <div class="container split top">
+      <div class="copy" data-reveal>
+        <h2>How it’s built</h2>
+        <p>
+          All the heavy lifting (transcription, summaries, chapter markers, clip picks, and the
+          search index) happens ahead of time in an offline script and is saved as plain files.
+          That keeps the live site fast and nearly free to run.
+        </p>
+        <p>
+          The only live step is answering your question, and that goes through a small secure
+          service so our API key is never exposed. The whole pipeline is documented in
+          <code>ARCHITECTURE.md</code>.
+        </p>
+      </div>
+      <div class="cta panel" data-reveal style="--i:1">
+        <h3>Watch the full episodes</h3>
+        <p class="muted">Everything on this site links back to the original videos.</p>
+        <div class="button-row">
+          <a class="btn btn-primary" href={site.channelUrl} rel="noopener">Our YouTube channel</a>
+          <a class="btn btn-ghost" href={site.brandSiteUrl} rel="noopener">metalmagicftc.org</a>
         </div>
-        <a class="btn btn-primary" href={site.channelUrl} rel="noopener">Our YouTube channel ↗</a>
       </div>
     </div>
   </section>
 
   <style>
-    .narrow { max-width: 760px; }
-    .team-photo {
-      margin: 2rem 0 0;
+    .tight {
+      padding-top: 0;
     }
-    .team-photo img {
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(32px, 6vw, 80px);
+      align-items: center;
+    }
+    .split.top {
+      align-items: start;
+    }
+    .copy {
+      display: grid;
+      gap: 18px;
+      justify-items: start;
+    }
+    .copy p {
+      margin: 0;
+    }
+    .copy p:not(.label) {
+      color: var(--muted);
+      max-width: 52ch;
+    }
+    .photo {
+      margin: 0;
+    }
+    .photo img {
       width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 20px;
-      border: 1px solid var(--purple-100);
-      box-shadow: var(--shadow-lg);
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      border-radius: var(--r-lg);
+      border: 1px solid var(--line);
+      transition: transform 400ms var(--ease);
     }
-    .team-photo figcaption {
-      margin-top: 0.7rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--gray);
-      font-family: var(--font-head);
+    .photo:hover img {
+      transform: scale(1.015);
     }
-    h2 { margin-top: 2.5rem; }
-    .prose-list { padding-left: 1.2rem; color: var(--ink-soft); }
-    .prose-list li { margin-bottom: 0.6rem; }
-    .prose-list strong { color: var(--ink); }
-    code {
-      font-family: var(--font-mono);
-      background: var(--purple-050);
-      padding: 0.1rem 0.35rem;
-      border-radius: 5px;
-      font-size: 0.85em;
-    }
-    .cta-card {
-      margin-top: 3rem;
-      padding: 1.5rem 1.75rem;
+    .photo figcaption {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      background: var(--purple-050);
-      border-color: var(--purple-100);
+      gap: 10px;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
     }
-    .cta-card h3 { margin: 0 0 0.25rem; }
-    .cta-card p { margin: 0; }
-    .muted { color: var(--gray); }
+    .rec {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: rec 1.6s ease-in-out infinite;
+    }
+    @keyframes rec {
+      50% {
+        opacity: 0.3;
+      }
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .feature {
+      padding: 22px;
+      transition: border-color 200ms ease, transform 260ms var(--ease);
+    }
+    .feature:hover {
+      border-color: var(--accent-2);
+      transform: translateY(-4px);
+    }
+    .feature h3 {
+      margin-bottom: 8px;
+    }
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .checks {
+      display: grid;
+      gap: 10px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+    }
+    .checks li {
+      position: relative;
+      padding: 16px 18px 16px 48px;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      background: var(--panel);
+    }
+    .checks li::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 1.35em;
+      width: 14px;
+      height: 8px;
+      border-left: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(-45deg);
+    }
+    .checks strong {
+      color: var(--text);
+    }
+    .cta {
+      display: grid;
+      gap: 18px;
+      padding: clamp(24px, 4vw, 36px);
+      border-radius: var(--r-lg);
+    }
+    .cta h3 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    }
+    code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      color: var(--text);
+      background: var(--panel-2);
+      padding: 0.1rem 0.4rem;
+      border-radius: 5px;
+    }
+    @media (max-width: 900px) {
+      .split {
+        grid-template-columns: 1fr;
+      }
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 520px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </Base>

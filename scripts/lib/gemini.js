@@ -29,7 +29,7 @@ async function post(path, body, { retries = 4 } = {}) {
         body: JSON.stringify(body),
       });
     } catch (netErr) {
-      // Transient network hiccup (ECONNRESET, fetch failed) — back off and retry.
+      // Transient network hiccup (ECONNRESET, fetch failed): back off and retry.
       if (attempt < retries) {
         await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)));
         lastErr = netErr;
@@ -39,7 +39,7 @@ async function post(path, body, { retries = 4 } = {}) {
     }
     if (res.ok) return res.json();
     const text = await res.text();
-    // 429 (rate limit) / 5xx (overloaded) — back off and retry.
+    // 429 (rate limit) / 5xx (overloaded): back off and retry.
     if ((res.status === 429 || res.status >= 500) && attempt < retries) {
       const waitMs = 2000 * (attempt + 1);
       await new Promise((r) => setTimeout(r, waitMs));
@@ -123,4 +123,11 @@ export async function embed(text, taskType = 'RETRIEVAL_DOCUMENT') {
 
 function stripFences(s) {
   return s.trim().replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();
+}
+
+// House style: no em dashes anywhere on the site. Prompts ask for this, and this
+// catches the ones the model writes anyway. Chinese uses a full-width comma.
+export function noEmDash(s, { cjk = false } = {}) {
+  if (typeof s !== 'string') return s;
+  return s.replace(/\s*—+\s*/g, cjk ? '，' : ', ');
 }

@@ -1,102 +1,153 @@
 ---
-import { humanDuration, formatUploadDate, teamFromTitle } from '../lib/util.js';
-const { ep } = Astro.props;
+// One episode as a row in a tracklist, with a speech waveform drawn from its
+// real caption timing.
+import { humanDuration, formatUploadDate, teamFromTitle, speechWaveform } from '../lib/util.js';
+import Wave from './Wave.astro';
+
+const { ep, n = 1 } = Astro.props;
 const team = teamFromTitle(ep.title);
 const duration = humanDuration(ep.durationSeconds);
 const date = formatUploadDate(ep.uploadDate);
+
+const modules = import.meta.glob('../data/episodes/*.json', { eager: true });
+const full = Object.values(modules).find((m) => m.default.id === ep.id)?.default;
+const wave = speechWaveform(full || ep, 48);
+
+// Lowercased text the episodes-page filter matches against.
+const haystack = [ep.title, team, ep.summary].filter(Boolean).join(' ').toLowerCase();
 ---
 
-<a class="ep-card card" href={`/episodes/${ep.id}/`} aria-label={`Open episode: ${ep.title}`}>
-  <div class="thumb">
-    <img
-      src={ep.thumbnail}
-      alt={`Video thumbnail for the episode “${ep.title}”`}
-      loading="lazy"
-      width="480"
-      height="270"
-    />
-    {duration && <span class="dur ts">{duration}</span>}
-  </div>
-  <div class="body">
-    <div class="tags">
-      {team && <span class="chip">{team}</span>}
-      {date && <span class="date">{date}</span>}
-    </div>
-    <h3 class="title">{ep.title}</h3>
-    {ep.summary && <p class="summary">{ep.summary}</p>}
-    <span class="cta">
-      {ep.hasTranscript ? 'Read transcript & chapters' : 'View episode'} →
+<li class="track" data-reveal data-search={haystack} style={`--i:${n - 1}`}>
+  <a class="track-link" href={`/episodes/${ep.id}/`}>
+    <span class="num">
+      <span class="num-n">{String(n).padStart(2, '0')}</span>
+      <svg class="num-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"></path></svg>
     </span>
-  </div>
-</a>
+    <span class="thumb">
+      <img src={ep.thumbnail} alt="" loading="lazy" width="480" height="270" />
+    </span>
+    <span class="info">
+      <span class="title">{ep.title}</span>
+      <span class="meta">
+        {team && <span class="chip">{team}</span>}
+        {date && <span>{date}</span>}
+      </span>
+    </span>
+    <Wave values={wave} class="track-wave" />
+    <span class="dur">{duration}</span>
+  </a>
+</li>
 
 <style>
-  .ep-card {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  .track {
+    border-bottom: 1px solid var(--line);
   }
-  .ep-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
-    border-color: var(--purple-100);
+  .track-link {
+    display: grid;
+    grid-template-columns: 44px 128px minmax(0, 1fr) minmax(140px, 240px) 64px;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 14px;
+    margin-inline: -14px;
+    border-radius: var(--r);
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color 200ms ease;
+  }
+  .track-link:hover,
+  .track-link:focus-visible {
+    background: var(--panel);
+  }
+  .num {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 36px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+  .num-play {
+    position: absolute;
+    color: var(--accent);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 160ms ease, transform 220ms var(--ease);
+  }
+  .num-n {
+    transition: opacity 160ms ease;
+  }
+  .track-link:hover .num-n {
+    opacity: 0;
+  }
+  .track-link:hover .num-play {
+    opacity: 1;
+    transform: none;
   }
   .thumb {
-    position: relative;
     aspect-ratio: 16 / 9;
-    background: var(--purple-050);
+    overflow: hidden;
+    border-radius: var(--r-sm);
+    background: var(--panel-2);
   }
   .thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    transition: transform 400ms var(--ease);
   }
-  .dur {
-    position: absolute;
-    right: 0.6rem;
-    bottom: 0.6rem;
-    background: rgba(28, 24, 48, 0.82);
-    color: #fff;
-    border: 0;
+  .track-link:hover .thumb img {
+    transform: scale(1.06);
   }
-  .body {
-    padding: 1.1rem 1.2rem 1.3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    flex: 1;
-  }
-  .tags {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .date {
-    color: var(--gray);
-    font-size: 0.82rem;
+  .info {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
   }
   .title {
-    font-size: 1.08rem;
-    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.12rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
-  .summary {
-    color: var(--ink-soft);
-    font-size: 0.92rem;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
   }
-  .cta {
-    margin-top: auto;
-    color: var(--purple);
-    font-weight: 500;
-    font-size: 0.92rem;
-    font-family: var(--font-head);
+  /* On hover the waveform "plays": bars light up left to right. */
+  .track-link :global(.track-wave) {
+    height: 36px;
+  }
+  .track-link :global(.track-wave i) {
+    transition-delay: calc(var(--n) * 9ms);
+  }
+  .track-link:hover :global(.track-wave i) {
+    background: var(--accent-2);
+  }
+  .dur {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  @media (max-width: 860px) {
+    .track-link {
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 10px 16px;
+    }
+    .num,
+    .dur {
+      display: none;
+    }
+    .track-link :global(.track-wave) {
+      grid-column: 1 / -1;
+      height: 28px;
+    }
   }
 </style>

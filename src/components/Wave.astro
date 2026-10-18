@@ -1,0 +1,8 @@
+---
+// Mirrored-bar speech waveform. `values` are 0..1 heights (see speechWaveform).
+const { values = [], class: cls = '', ...rest } = Astro.props;
+---
+
+<div class:list={['wave', cls]} aria-hidden="true" {...rest}>
+  {values.map((h, i) => <i style={`--h:${h};--n:${i}`}></i>)}
+</div>

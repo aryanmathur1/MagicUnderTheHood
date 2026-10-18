@@ -36,7 +36,7 @@ export function chunkSegments(segments) {
 
 /**
  * Chunk a plain block of text (e.g. a team web page) into overlapping windows
- * for embedding. No timestamps — these chunks link to the page itself.
+ * for embedding. No timestamps; these chunks link to the page itself.
  * @returns {{text:string}[]}
  */
 export function chunkText(text) {

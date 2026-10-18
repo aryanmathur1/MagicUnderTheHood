@@ -2,7 +2,7 @@
 // copy-paste YouTube chapter block) and shareable clip suggestions.
 // All prompts enforce the project guardrails: only use what's in the transcript,
 // paraphrase clearly, never invent quotes, keep it student-appropriate.
-import { generate } from './gemini.js';
+import { generate, noEmDash } from './gemini.js';
 import { formatTimestamp } from './captions.js';
 
 // Collapse whitespace + lowercase for verbatim substring checks (captions have
@@ -28,7 +28,8 @@ const GUARD =
   'Only use information actually present in the transcript. Never invent facts, ' +
   'names, or quotes. When you quote a guest, copy their words exactly; otherwise ' +
   'paraphrase and make it clear it is a paraphrase. Keep everything appropriate ' +
-  'for a middle/high-school student audience.';
+  'for a middle/high-school student audience. Never use em dashes; use commas, ' +
+  'colons, or separate sentences instead.';
 
 export async function makeShowNotes(meta, segments) {
   const transcript = timedTranscript(segments);
@@ -51,7 +52,7 @@ Return JSON with this exact shape:
 Rules:
 - 4 to 8 chapters, in chronological order, first one at 0:00. Titles are 2-6 words.
 - Use timestamps that actually appear in the transcript.
-- Provide 5 to 6 pull quote candidates. Each "quote" MUST be copied character-for-character from the transcript text (an exact substring) — do NOT fix grammar, spelling, or caption errors. Pick genuinely insightful or memorable lines.`;
+- Provide 5 to 6 pull quote candidates. Each "quote" MUST be copied character-for-character from the transcript text (an exact substring). Do NOT fix grammar, spelling, or caption errors. Pick genuinely insightful or memorable lines.`;
 
   const data = await generate(prompt, { json: true, temperature: 0.4 });
 
@@ -68,18 +69,18 @@ Rules:
     .join('\n');
 
   return {
-    summary: data.summary || '',
+    summary: noEmDash(data.summary || ''),
     chapters: (data.chapters || []).map((c) => ({
       time: c.time,
       seconds: toSeconds(c.time),
-      title: c.title,
+      title: noEmDash(c.title),
     })),
     pullQuotes: (data.pullQuotes || []).map((q) => ({
       time: q.time,
       seconds: toSeconds(q.time),
       quote: q.quote,
     })),
-    youtubeChapterBlock: chapterBlock,
+    youtubeChapterBlock: noEmDash(chapterBlock),
   };
 }
 
@@ -109,7 +110,7 @@ Pick self-contained moments with a clear insight, funny line, or strong advice.`
     startSeconds: toSeconds(c.start),
     end: c.end,
     endSeconds: toSeconds(c.end),
-    reason: c.reason,
-    caption: c.caption,
+    reason: noEmDash(c.reason),
+    caption: noEmDash(c.caption),
   }));
 }

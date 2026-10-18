@@ -1,11 +1,11 @@
-# Magic Under the Hood — Searchable Podcast Archive
+# Magic Under the Hood: Searchable Podcast Archive
 
 A fast, accessible, searchable website for **Metal Magic FTC Team #23362**'s interview
 podcast. Every episode gets a full timestamped transcript, auto-generated show notes and
 clips, and an **"Ask the Podcast"** semantic search that answers questions in plain English
 and links to the exact moment on YouTube.
 
-- **Live site:** _(add your Vercel URL here after deploying — see [Deploy](#deploy))_
+- **Live site:** _(add your Vercel URL here after deploying; see [Deploy](#deploy))_
 - **How it works, for non-programmers:** [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 The guiding idea: **all the heavy work happens once, ahead of time, and is saved as plain
@@ -36,7 +36,7 @@ essentially free to run.
 | **ffmpeg** | Needed only for the audio-transcription fallback | `brew install ffmpeg` |
 | **A free Gemini API key** | Transcription fallback, show notes, clips, search | <https://aistudio.google.com/apikey> |
 
-The Gemini key is on Google's **free tier** — no credit card needed for the volume this
+The Gemini key is on Google's **free tier**. No credit card needed for the volume this
 site uses.
 
 ---
@@ -54,8 +54,8 @@ cp .env.example .env
 
 Your key lives in **two** places (both private, never in browser code):
 
-1. **`.env`** on your computer — so the build script can generate everything.
-2. **Vercel → Project → Settings → Environment Variables** — so the live search works
+1. **`.env`** on your computer, so the build script can generate everything.
+2. **Vercel → Project → Settings → Environment Variables**, so the live search works
    (you'll add this during [Deploy](#deploy)).
 
 ---
@@ -64,7 +64,7 @@ Your key lives in **two** places (both private, never in browser code):
 
 **This is the only file you edit to add an episode:** [`config/episodes.json`](./config/episodes.json).
 
-1. Find the video's YouTube id — it's the part after `watch?v=`.
+1. Find the video's YouTube id. It's the part after `watch?v=`.
    For `https://www.youtube.com/watch?v=vDX-ht7H9Fw`, the id is `vDX-ht7H9Fw`.
 2. Add it to the list:
 
@@ -90,7 +90,7 @@ transcript** (YouTube captions first; if a video has none, it downloads the audi
 transcribes it with Gemini), writes **show notes** (summary, chapters, pull quotes, plus a
 copy-paste chapter block for the YouTube description), picks **shareable clips**, and
 rebuilds the **search index**. Results are saved as JSON in `src/data/` and
-`api/embeddings.json` — commit those files.
+`api/embeddings.json`. Commit those files.
 
 ### Adding your own web pages to the search
 
@@ -109,7 +109,7 @@ pages you own or are allowed to index.
 
 Each transcript is pre-translated at build time into the languages listed in
 `config/site.js` (`languages`). On an episode page, a 🌐 **Language** dropdown swaps the
-transcript instantly — no runtime AI call, it's all static. You can also deep-link a
+transcript instantly. No runtime AI call; it's all static. You can also deep-link a
 translated view, e.g. `/episodes/vDX-ht7H9Fw/?lang=es`. Add or remove languages in
 `config/site.js` and re-run `npm run regenerate`; translations are cached and only redone
 when the transcript changes (or with `--force`).
@@ -124,7 +124,7 @@ npm run regenerate -- --force          # ignore caches, redo the AI steps
 
 > **No key yet?** The script still runs the free steps (metadata + captions). It skips the
 > AI steps (show notes, clips, search index) with a warning, and the site renders fine
-> without them — they fill in the next time you run it with a key.
+> without them. They fill in the next time you run it with a key.
 
 ---
 
@@ -151,7 +151,7 @@ vercel dev         # runs pages + /api/ask together, loads .env automatically
 The site is built for **Vercel** (static pages **+** one serverless function for search).
 GitHub Pages can't host the search function, which is why we use Vercel.
 
-**Option A — from your computer (quickest):**
+**Option A: from your computer (quickest):**
 
 ```bash
 npm i -g vercel
@@ -159,7 +159,7 @@ vercel            # first run: log in, link/create a project, accept defaults
 vercel --prod     # publish to your public URL
 ```
 
-**Option B — from GitHub (auto-deploy on every push):**
+**Option B: from GitHub (auto-deploy on every push):**
 
 1. Push this folder to a GitHub repo.
 2. On <https://vercel.com>, **Add New → Project**, import the repo. Vercel auto-detects
@@ -168,7 +168,7 @@ vercel --prod     # publish to your public URL
 
 **Then, for search to work, add the key on Vercel** (either option):
 **Project → Settings → Environment Variables → Add**, name `GEMINI_API_KEY`, paste your
-key, save, and redeploy. That's it — the key stays encrypted on Vercel and is only read by
+key, save, and redeploy. That's it. The key stays encrypted on Vercel and is only read by
 the search function.
 
 Finally, put your live URL at the top of this README.
@@ -215,20 +215,20 @@ ARCHITECTURE.md     ← plain-English explanation of the whole system
 
 ## Troubleshooting
 
-- **`GEMINI_API_KEY is not set`** — you skipped `.env`, or you're running `node` directly.
+- **`GEMINI_API_KEY is not set`**: you skipped `.env`, or you're running `node` directly.
   Use `npm run regenerate` (it loads `.env`), or export the key in your shell.
-- **A model name stopped working** — Google occasionally retires free models. Update the
+- **A model name stopped working**: Google occasionally retires free models. Update the
   names in `config/site.js` and re-run. To list what your key can use:
   `node --env-file=.env -e 'fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${process.env.GEMINI_API_KEY}`).then(r=>r.json()).then(d=>console.log(d.models.map(m=>m.name).join("\n")))'`
-- **`429 quota exceeded` on search** — the runtime model (`models.chat`) has a free daily
+- **`429 quota exceeded` on search**: the runtime model (`models.chat`) has a free daily
   cap. We use `gemini-flash-lite-latest` because Flash-Lite has the most generous free tier
   (full `-flash` models can be as low as ~20 requests/day, which a live site would burn
   through fast). Build-time enrichment uses a higher-quality model (`models.enrich`), which
   is fine because it only runs when you add episodes. If search gets throttled, either wait
   for the daily reset or point `models.chat` at another available model.
-- **`yt-dlp: command not found`** — install it (`brew install yt-dlp`) or set `YTDLP_PATH`
+- **`yt-dlp: command not found`**: install it (`brew install yt-dlp`) or set `YTDLP_PATH`
   to its full path.
-- **Search says "isn't set up yet"** — the index (`api/embeddings.json`) is empty. Run
+- **Search says "isn't set up yet"**: the index (`api/embeddings.json`) is empty. Run
   `npm run regenerate` with a key, commit the file, and redeploy.
-- **A video has no captions** — the script falls back to Gemini audio transcription
+- **A video has no captions**: the script falls back to Gemini audio transcription
   (needs `ffmpeg` + a key). This is slower but automatic.

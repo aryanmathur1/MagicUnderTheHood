@@ -3,7 +3,7 @@ node_modules/
 dist/
 .astro/
 
-# secrets — NEVER commit your API key
+# secrets: NEVER commit your API key
 .env
 .env.local
 .env.*.local
@@ -15,7 +15,7 @@ dist/
 .DS_Store
 *.log
 
-# NOTE: generated data IS committed on purpose — that's the whole point of the
+# NOTE: generated data IS committed on purpose. That's the whole point of the
 # build-time architecture. Keep these tracked:
 #   src/data/**   api/embeddings.json
 .vercel

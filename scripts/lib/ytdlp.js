@@ -62,7 +62,7 @@ export async function fetchCaptionsJson3(id) {
     const chosen = files.find((f) => !/auto/i.test(f)) || files[0];
     return await readFile(join(dir, chosen), 'utf8');
   } catch (err) {
-    // No subtitles available is not fatal — caller falls back to audio.
+    // No subtitles available is not fatal; the caller falls back to audio.
     if (/no subtitles|requested format/i.test(String(err))) return null;
     throw err;
   } finally {

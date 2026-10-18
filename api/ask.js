@@ -1,5 +1,5 @@
 // ============================================================================
-// /api/ask — the ONLY server-side code and the ONLY live AI call on the site.
+// /api/ask: the ONLY server-side code and the ONLY live AI call on the site.
 //
 // It is a proxy: the browser posts a question here, and THIS function (running
 // on Vercel) talks to Gemini using a secret key stored in Vercel's encrypted
@@ -21,7 +21,7 @@ let INDEX = { dim: 0, episodes: [], chunks: [] };
 try {
   INDEX = JSON.parse(readFileSync(new URL('./embeddings.json', import.meta.url), 'utf8'));
 } catch {
-  /* index not built yet — handled below */
+  /* index not built yet; handled below */
 }
 const TITLES = Object.fromEntries(INDEX.episodes.map((e) => [e.id, e.title]));
 
@@ -88,7 +88,11 @@ You answer ONLY using the numbered excerpts provided by the user (these come fro
 - If the excerpts do not contain enough information to answer, say so plainly (e.g. "The archive doesn't cover that yet.") and do not guess or use outside knowledge.
 - Never invent quotes, names, team numbers, or facts. When you quote a guest, copy their words exactly from the excerpts; otherwise paraphrase and make clear it is a paraphrase.
 - Keep the answer concise (2-5 sentences), friendly, and appropriate for a middle/high-school student audience.
-- Base every claim on the excerpts and cite which excerpt numbers support it.`;
+- Base every claim on the excerpts and cite which excerpt numbers support it.
+- Never use em dashes. Use commas, colons, or separate sentences instead.`;
+
+// Belt and braces for the style rule above: the model still slips one in now and then.
+const noEmDash = (s) => String(s).replace(/\s*—+\s*/g, ', ');
 
 function readBody(req) {
   return new Promise((resolve) => {
@@ -146,7 +150,7 @@ export default async function handler(req, res) {
     return res.end(
       JSON.stringify({
         error:
-          'Search isn’t set up yet — the transcript index hasn’t been generated. (Run the regenerate pipeline with an API key.)',
+          'Search isn’t set up yet. The transcript index hasn’t been generated. (Run the regenerate pipeline with an API key.)',
       })
     );
   }
@@ -160,7 +164,7 @@ export default async function handler(req, res) {
 
     const top = ranked.slice(0, rag.topK);
 
-    // 2) If nothing is even loosely relevant, be honest — don't guess.
+    // 2) If nothing is even loosely relevant, be honest and don't guess.
     if (!top.length || top[0].score < rag.minRelevance) {
       return res.end(
         JSON.stringify({
@@ -176,7 +180,7 @@ export default async function handler(req, res) {
       .map((t, i) => {
         const where =
           t.c.type === 'page'
-            ? `${t.c.title} — team website`
+            ? `${t.c.title} (team website)`
             : `${TITLES[t.c.episodeId] || t.c.episodeId} @ ${formatTimestamp(t.c.start)}`;
         return `[${i + 1}] (${where})\n${t.c.text}`;
       })
@@ -246,7 +250,7 @@ Answer the question using ONLY these excerpts. Respond as JSON:
     return res.end(
       JSON.stringify({
         answer:
-          parsed.answer ||
+          (parsed.answer && noEmDash(parsed.answer)) ||
           'The archive doesn’t cover that yet.',
         sources: parsed.covered ? sources : [],
       })

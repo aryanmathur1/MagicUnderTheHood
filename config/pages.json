@@ -1,6 +1,6 @@
 {
   "_comment": "Extra web pages (your own team site) to fold into the searchable archive alongside the podcast transcripts. Add a page here and run `npm run regenerate`; its text is fetched, chunked, embedded, and cited in Ask-the-Podcast answers with a link back to the page. Only add pages you own / are allowed to index.",
   "pages": [
-    { "url": "https://metalmagicftc.org/robot-design.html", "title": "Robot & Design — Metal Magic" }
+    { "url": "https://metalmagicftc.org/robot-design.html", "title": "Robot & Design | Metal Magic" }
   ]
 }

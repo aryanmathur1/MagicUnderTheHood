@@ -6,9 +6,9 @@
 // We use a marker-based format ("[[N]] text") instead of a JSON array so that
 // alignment is guaranteed by the paragraph NUMBER, not by the model returning an
 // exactly-sized array (which it does not do reliably for longer transcripts).
-// Any paragraph the model drops simply falls back to English — the array is
+// Any paragraph the model drops simply falls back to English; the array is
 // always the right length and never shifts.
-import { generate } from './gemini.js';
+import { generate, noEmDash } from './gemini.js';
 import { models, languages } from '../../config/site.js';
 
 function parseMarked(raw, n) {
@@ -34,8 +34,9 @@ export async function translateOne(texts, lang, tries = 2) {
   const prompt = `Translate the following ${n} numbered transcript paragraphs into ${lang.name}. This is a spoken transcript from a student robotics podcast.
 Rules:
 - Keep every "[[N]]" marker EXACTLY as-is at the start of its paragraph. Do not translate, renumber, or remove the markers.
-- Translate only the text after each marker. Keep exactly ${n} paragraphs — do not merge or split them.
+- Translate only the text after each marker. Keep exactly ${n} paragraphs. Do not merge or split them.
 - Keep team numbers and product names (e.g. "Limelight", "goBILDA", "April tag") as-is.
+- Never use em dashes. Use commas, colons, or separate sentences instead.
 - Output only the paragraphs in "[[N]] translated text" form, one blank line between them, nothing else.
 
 ${numbered}`;
@@ -53,7 +54,8 @@ ${numbered}`;
     if (count === n) break;
   }
   if (!best || bestCount === 0) return null;
-  return best.map((t, i) => (t == null ? texts[i] : t));
+  const cjk = lang.code === 'zh';
+  return best.map((t, i) => noEmDash(t == null ? texts[i] : t, { cjk }));
 }
 
 /**
